@@ -19,9 +19,10 @@ pluginManagement {
 
     }
 }
-include("autoshop-common")
 include("autoshop-transport-main-openapi-v1")
-//include("autoshop-transport-main-openapi-v2")
+include("autoshop-transport-main-openapi-v2")
+include("autoshop-common")
 include("autoshop-mappers-v1")
-//include("autoshop-mappers-v2")
-//include("autoshop-app-ktor")
+include("autoshop-mappers-v2")
+include("autoshop-stubs")
+include("autoshop-app-ktor")
