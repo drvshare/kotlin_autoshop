@@ -16,6 +16,8 @@ import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import org.slf4j.event.Level
 import ru.drvshare.autoshop.api.apiV1Mapper
+import ru.drvshare.autoshop.app.v2.v2Ad
+import ru.drvshare.autoshop.app.v2.v2Offer
 import ru.drvshare.autoshop.v1.v1Ad
 import ru.drvshare.autoshop.v1.v1Offer
 
@@ -33,10 +35,10 @@ fun Application.module() {
     install(WebSockets)
 
     install(CORS) {
-        allowMethod(HttpMethod.Options)
+//        allowMethod(HttpMethod.Options)
         allowMethod(HttpMethod.Put)
-        allowMethod(HttpMethod.Delete)
-        allowMethod(HttpMethod.Patch)
+//        allowMethod(HttpMethod.Delete)
+//        allowMethod(HttpMethod.Patch)
         allowHeader(HttpHeaders.Authorization)
         allowHeader("MyCustomHeader")
         allowCredentials = true
@@ -68,8 +70,8 @@ fun Application.module() {
             v1Offer()
         }
         route("v2") {
-//            v2Ad()
-//            v2Offer()
+            v2Ad()
+            v2Offer()
         }
 
         static("static") {

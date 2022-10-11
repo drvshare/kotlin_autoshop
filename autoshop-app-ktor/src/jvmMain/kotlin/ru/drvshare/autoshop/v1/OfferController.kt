@@ -14,6 +14,7 @@ suspend fun ApplicationCall.offersAd() {
     val request = receive<AdOffersRequest>()
     val context = AdContext()
     context.fromTransport(request)
-    context.adsResponse.addAll(AutoShopAdStub.prepareOffersList("Болт", EAutoShopDealSide.SUPPLY))
+    /** TODO! Пока нет бизнес-логики используем stub */
+    context.adsResponse.addAll(AutoShopAdStub.prepareOffersList("Нива", EAutoShopDealSide.SUPPLY))
     respond(context.toTransportOffers())
 }

@@ -1,12 +1,16 @@
 package ru.drvshare.autoshop.stubs
 
+import kotlinx.datetime.LocalDate
 import ru.drvshare.autoshop.common.models.*
 
 object AutoShopAdStub {
     fun get() = AutoShopAd(
         id = AutoShopAdId("666"),
-        title = "Требуется болт",
-        description = "Требуется болт 100x5 с шестигранной шляпкой",
+        title = "Ищем автомобиль Нива",
+        description = "Ищем автомобиль нива 1999 года с бензиновым двигателем объёмом 1.7л",
+        releaseYear = LocalDate(1999, 1, 1),
+        engineCapacity = "1.7",
+        engineType = EAutoEngineType.PETROL,
         ownerId = AdUserId("user-1"),
         adType = EAutoShopDealSide.DEMAND,
         visibility = EAutoShopAdVisibility.VISIBLE_PUBLIC,

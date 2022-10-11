@@ -5,7 +5,7 @@ import ru.drvshare.autoshop.api.v2.models.AdCreateRequest
 import ru.drvshare.autoshop.api.v2.models.IRequest
 import kotlin.reflect.KClass
 
-object CreateRequestStrategy: IRequestStrategy {
+object CreateRequestStrategy : IRequestStrategy {
     override val discriminator: String = "create"
     override val clazz: KClass<out IRequest> = AdCreateRequest::class
     override val serializer: KSerializer<out IRequest> = AdCreateRequest.serializer()

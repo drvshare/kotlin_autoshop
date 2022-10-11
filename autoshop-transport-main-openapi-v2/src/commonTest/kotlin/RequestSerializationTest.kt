@@ -16,8 +16,15 @@ class RequestSerializationTest {
             stub = EAdRequestDebugStubs.BAD_TITLE
         ),
         ad = AdCreateObject(
-            title = "ad title",
-            description = "ad description",
+            title = "title",
+            description = "desc",
+            releaseYear = 1999,
+            odometer = "25000",
+            engineCapacity = "1700",
+            engineType = EEngineType.DIESEL,
+            transmission = ETransmission.MANUAL,
+            steering = ESteering.LEFT_HAND_DRIVE,
+
             adType = EDealSide.DEMAND,
             visibility = EAdVisibility.PUBLIC,
         )
@@ -29,8 +36,9 @@ class RequestSerializationTest {
 
         println(json)
 
-        assertContains(json, Regex("\"title\":\\s*\"ad title\""))
+        assertContains(json, Regex("\"title\":\\s*\"title\""))
         assertContains(json, Regex("\"mode\":\\s*\"stub\""))
+        assertContains(json, Regex("\"odometer\":\\s*\"25000\""))
         assertContains(json, Regex("\"stub\":\\s*\"badTitle\""))
         assertContains(json, Regex("\"requestType\":\\s*\"create\""))
     }
