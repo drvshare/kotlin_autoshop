@@ -4,7 +4,7 @@ import ru.drvshare.autoshop.common.AdContext
 import ru.drvshare.autoshop.common.models.AdError
 import ru.drvshare.autoshop.common.models.EAdState
 
-fun Throwable.asMkplError(
+fun Throwable.asAutoShopError(
     code: String = "unknown",
     group: String = "exceptions",
     message: String = this.message ?: "",

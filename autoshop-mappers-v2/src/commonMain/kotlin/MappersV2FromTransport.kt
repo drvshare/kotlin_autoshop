@@ -1,12 +1,12 @@
-package ru.drvshare.autoshop.mappers.v1
+package ru.drvshare.autoshop.mappers.v2
 
 import kotlinx.datetime.LocalDate
-import ru.drvshare.autoshop.api.v1.models.*
+import ru.drvshare.autoshop.api.v2.models.*
 import ru.drvshare.autoshop.common.AdContext
 import ru.drvshare.autoshop.common.models.AutoShopAd
 import ru.drvshare.autoshop.common.models.AutoShopAdFilter
 import ru.drvshare.autoshop.common.models.EAdCommand
-import ru.drvshare.autoshop.mappers.v1.exceptions.UnknownRequestClass
+import ru.drvshare.autoshop.mappers.v2.exceptions.UnknownRequestClass
 
 fun AdContext.fromTransport(request: IRequest) = when (request) {
     is AdCreateRequest -> fromTransport(request)
@@ -82,6 +82,7 @@ private fun AdCreateObject.toInternal(): AutoShopAd = AutoShopAd(
 
     adType = this.adType.fromTransport(),
     visibility = this.visibility.fromTransport(),
+    productId = this.productId.toProductId()
 )
 
 private fun AdUpdateObject.toInternal(): AutoShopAd = AutoShopAd(
@@ -97,6 +98,5 @@ private fun AdUpdateObject.toInternal(): AutoShopAd = AutoShopAd(
 
     adType = this.adType.fromTransport(),
     visibility = this.visibility.fromTransport(),
+    productId = this.productId.toProductId()
 )
-
-
