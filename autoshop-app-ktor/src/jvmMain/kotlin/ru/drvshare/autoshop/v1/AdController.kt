@@ -7,14 +7,14 @@ import ru.drvshare.autoshop.api.v1.models.*
 import ru.drvshare.autoshop.common.AsAdContext
 import ru.drvshare.autoshop.common.models.EAsDealSide
 import ru.drvshare.autoshop.mappers.v1.*
-import ru.drvshare.autoshop.stubs.ASAdStub
+import ru.drvshare.autoshop.stubs.AsAdStub
 
 suspend fun ApplicationCall.createAd() {
     val request = receive<AdCreateRequest>()
     val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
-    context.adResponse = ASAdStub.get()
+    context.adResponse = AsAdStub.get()
     respond(context.toTransportCreate())
 }
 
@@ -23,7 +23,7 @@ suspend fun ApplicationCall.readAd() {
     val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
-    context.adResponse = ASAdStub.get()
+    context.adResponse = AsAdStub.get()
     respond(context.toTransportRead())
 }
 
@@ -32,7 +32,7 @@ suspend fun ApplicationCall.updateAd() {
     val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
-    context.adResponse = ASAdStub.get()
+    context.adResponse = AsAdStub.get()
     respond(context.toTransportUpdate())
 }
 
@@ -41,7 +41,7 @@ suspend fun ApplicationCall.deleteAd() {
     val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
-    context.adResponse = ASAdStub.get()
+    context.adResponse = AsAdStub.get()
     respond(context.toTransportDelete())
 }
 
@@ -50,6 +50,6 @@ suspend fun ApplicationCall.searchAd() {
     val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
-    context.adsResponse.addAll(ASAdStub.prepareSearchList("Нива", EAsDealSide.DEMAND))
+    context.adsResponse.addAll(AsAdStub.prepareSearchList("Нива", EAsDealSide.DEMAND))
     respond(context.toTransportSearch())
 }

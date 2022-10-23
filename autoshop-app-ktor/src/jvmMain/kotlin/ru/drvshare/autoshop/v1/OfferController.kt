@@ -8,13 +8,13 @@ import ru.drvshare.autoshop.common.AsAdContext
 import ru.drvshare.autoshop.common.models.EAsDealSide
 import ru.drvshare.autoshop.mappers.v1.fromTransport
 import ru.drvshare.autoshop.mappers.v1.toTransportOffers
-import ru.drvshare.autoshop.stubs.ASAdStub
+import ru.drvshare.autoshop.stubs.AsAdStub
 
 suspend fun ApplicationCall.offersAd() {
     val request = receive<AdOffersRequest>()
     val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
-    context.adsResponse.addAll(ASAdStub.prepareOffersList("Нива", EAsDealSide.SUPPLY))
+    context.adsResponse.addAll(AsAdStub.prepareOffersList("Нива", EAsDealSide.SUPPLY))
     respond(context.toTransportOffers())
 }
