@@ -4,14 +4,14 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import ru.drvshare.autoshop.api.v1.models.*
-import ru.drvshare.autoshop.common.AdContext
-import ru.drvshare.autoshop.common.models.EAutoShopDealSide
+import ru.drvshare.autoshop.common.AsAdContext
+import ru.drvshare.autoshop.common.models.EAsDealSide
 import ru.drvshare.autoshop.mappers.v1.*
 import ru.drvshare.autoshop.stubs.AutoShopAdStub
 
 suspend fun ApplicationCall.createAd() {
     val request = receive<AdCreateRequest>()
-    val context = AdContext()
+    val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
     context.adResponse = AutoShopAdStub.get()
@@ -20,7 +20,7 @@ suspend fun ApplicationCall.createAd() {
 
 suspend fun ApplicationCall.readAd() {
     val request = receive<AdReadRequest>()
-    val context = AdContext()
+    val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
     context.adResponse = AutoShopAdStub.get()
@@ -29,7 +29,7 @@ suspend fun ApplicationCall.readAd() {
 
 suspend fun ApplicationCall.updateAd() {
     val request = receive<AdUpdateRequest>()
-    val context = AdContext()
+    val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
     context.adResponse = AutoShopAdStub.get()
@@ -38,7 +38,7 @@ suspend fun ApplicationCall.updateAd() {
 
 suspend fun ApplicationCall.deleteAd() {
     val request = receive<AdDeleteRequest>()
-    val context = AdContext()
+    val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
     context.adResponse = AutoShopAdStub.get()
@@ -47,9 +47,9 @@ suspend fun ApplicationCall.deleteAd() {
 
 suspend fun ApplicationCall.searchAd() {
     val request = receive<AdSearchRequest>()
-    val context = AdContext()
+    val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
-    context.adsResponse.addAll(AutoShopAdStub.prepareSearchList("Нива", EAutoShopDealSide.DEMAND))
+    context.adsResponse.addAll(AutoShopAdStub.prepareSearchList("Нива", EAsDealSide.DEMAND))
     respond(context.toTransportSearch())
 }

@@ -3,8 +3,8 @@ package ru.drvshare.autoshop.common.models
 import kotlinx.datetime.LocalDate
 
 
-data class AutoShopAd(
-    var id: AutoShopAdId = AutoShopAdId.NONE,
+data class AsAd(
+    var id: AsAdId = AsAdId.NONE,
     var title: String = "",
     var description: String = "",
     /** Год выпуска */
@@ -14,15 +14,15 @@ data class AutoShopAd(
     /** Объём двигателя */
     val engineCapacity: String? = null,
     /** Тип двигателя (Бензин/дизель/электро) */
-    val engineType: EAutoEngineType = EAutoEngineType.UNDEFINED,
+    val engineType: EAsEngineType = EAsEngineType.UNDEFINED,
     /** Коробка передач (ручная, автомат, робот) */
-    val transmission: EAutoTransmission = EAutoTransmission.UNDEFINED,
+    val transmission: EAsTransmission = EAsTransmission.UNDEFINED,
     /** Рулевое управление (Левый, Правый) */
-    val steering: EAutoSteering = EAutoSteering.UNDEFINED,
+    val steering: EAsSteering = EAsSteering.UNDEFINED,
 
-    var ownerId: AdUserId = AdUserId.NONE,
-    val adType: EAutoShopDealSide = EAutoShopDealSide.NONE,
-    var visibility: EAutoShopAdVisibility = EAutoShopAdVisibility.NONE,
-    var productId: AdProductId = AdProductId.NONE,
-    val permissionsClient: MutableSet<EAutoShopAdPermissionClient> = mutableSetOf()
+    var ownerId: AsUserId = AsUserId.NONE,
+    val adType: EAsDealSide = EAsDealSide.NONE,
+    var visibility: EAsAdVisibility = EAsAdVisibility.NONE,
+    var productId: AsProductId = AsProductId.NONE,
+    val permissionsClient: MutableSet<EAsAdPermissionClient> = mutableSetOf()
 )

@@ -1,14 +1,14 @@
 package ru.drvshare.autoshop.common.helpers
 
-import ru.drvshare.autoshop.common.AdContext
-import ru.drvshare.autoshop.common.models.AdError
-import ru.drvshare.autoshop.common.models.EAdState
+import ru.drvshare.autoshop.common.AsAdContext
+import ru.drvshare.autoshop.common.models.AsError
+import ru.drvshare.autoshop.common.models.EAsState
 
 fun Throwable.asAutoShopError(
     code: String = "unknown",
     group: String = "exceptions",
     message: String = this.message ?: "",
-) = AdError(
+) = AsError(
     code = code,
     group = group,
     field = "",
@@ -16,8 +16,8 @@ fun Throwable.asAutoShopError(
     exception = this,
 )
 
-fun AdContext.addError(error: AdError) = errors.add(error)
-fun AdContext.fail(error: AdError) {
+fun AsAdContext.addError(error: AsError) = errors.add(error)
+fun AsAdContext.fail(error: AsError) {
     addError(error)
-    state = EAdState.FAILING
+    state = EAsState.FAILING
 }

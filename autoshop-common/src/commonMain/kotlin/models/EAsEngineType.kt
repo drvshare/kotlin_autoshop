@@ -1,6 +1,6 @@
 package ru.drvshare.autoshop.common.models
 
-enum class EAutoEngineType {
+enum class EAsEngineType {
     PETROL,
     DIESEL,
     ELECTRIC,

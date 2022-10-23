@@ -1,6 +1,6 @@
 package ru.drvshare.autoshop.common.models
 
-enum class EAdCommand {
+enum class EAsCommand {
     NONE,
     CREATE,
     READ,

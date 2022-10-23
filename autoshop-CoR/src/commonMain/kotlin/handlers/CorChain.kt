@@ -18,7 +18,7 @@ class CorChain<T>(
     description: String = "",
     blockOn: suspend T.() -> Boolean = { true },
     blockExcept: suspend T.(Throwable) -> Unit = {},
-) : AbstractCorExec<T>(title, description, blockOn, blockExcept) {
+) : ACorExec<T>(title, description, blockOn, blockExcept) {
     override suspend fun handle(context: T) = handler(execs, context)
 }
 

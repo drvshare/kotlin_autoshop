@@ -1,6 +1,6 @@
 package ru.drvshare.autoshop.common.stubs
 
-enum class EAdStubs {
+enum class EAsAdStubs {
     NONE,
     SUCCESS,
     NOT_FOUND,

@@ -1,6 +1,6 @@
 package ru.drvshare.autoshop.common.models
 
-data class AdError(
+data class AsError(
     val code: String = "",
     val group: String = "",
     val field: String = "",

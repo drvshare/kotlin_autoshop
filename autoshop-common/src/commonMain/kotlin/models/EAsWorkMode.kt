@@ -1,6 +1,6 @@
 package ru.drvshare.autoshop.common.models
 
-enum class EAdWorkMode {
+enum class EAsWorkMode {
     PROD,
     TEST,
     STUB,

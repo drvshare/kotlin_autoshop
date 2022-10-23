@@ -31,7 +31,7 @@ application {
 kotlin {
     jvm {}
 
-    /*val nativeTarget = when (System.getProperty("os.name")) {
+    val nativeTarget = when (System.getProperty("os.name")) {
         "Mac OS X" -> macosX64("native")
         "Linux" -> linuxX64("native")
         // Windows is currently not supported
@@ -46,7 +46,6 @@ kotlin {
             }
         }
     }
-*/
     sourceSets {
         @Suppress("UNUSED_VARIABLE")
         val commonMain by getting {
@@ -71,7 +70,7 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-/*        val nativeMain by getting {
+        val nativeMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-server-core:$ktorVersion")
                 implementation("io.ktor:ktor-server-cio:$ktorVersion")
@@ -85,7 +84,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
             }
-        }*/
+        }
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
@@ -156,7 +155,6 @@ docker {
     }
 }
 
-/*
 tasks {
     val linkReleaseExecutableNative by getting(KotlinNativeLink::class)
 
@@ -178,5 +176,4 @@ tasks {
         images.add("${project.name}:${project.version}")
     }
 }
-*/
 

@@ -1,6 +1,6 @@
 package ru.drvshare.autoshop.common.models
 
-enum class EAdState {
+enum class EAsState {
     NONE,
     RUNNING,
     FAILING,

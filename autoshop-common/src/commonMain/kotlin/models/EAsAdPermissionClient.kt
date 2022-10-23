@@ -1,6 +1,6 @@
 package ru.drvshare.autoshop.common.models
 
-enum class EAutoShopAdPermissionClient {
+enum class EAsAdPermissionClient {
     READ,
     UPDATE,
     DELETE,

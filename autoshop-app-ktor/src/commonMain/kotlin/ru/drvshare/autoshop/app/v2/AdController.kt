@@ -7,14 +7,14 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import ru.drvshare.autoshop.api.v2.apiV2Mapper
 import ru.drvshare.autoshop.api.v2.models.*
-import ru.drvshare.autoshop.common.AdContext
-import ru.drvshare.autoshop.common.models.EAutoShopDealSide
+import ru.drvshare.autoshop.common.AsAdContext
+import ru.drvshare.autoshop.common.models.EAsDealSide
 import ru.drvshare.autoshop.mappers.v2.*
 import ru.drvshare.autoshop.stubs.AutoShopAdStub
 
 suspend fun ApplicationCall.createAd() {
     val request = apiV2Mapper.decodeFromString<AdCreateRequest>(receiveText())
-    val context = AdContext()
+    val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
     context.adResponse = AutoShopAdStub.get()
@@ -23,7 +23,7 @@ suspend fun ApplicationCall.createAd() {
 
 suspend fun ApplicationCall.readAd() {
     val request = apiV2Mapper.decodeFromString<AdReadRequest>(receiveText())
-    val context = AdContext()
+    val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
     context.adResponse = AutoShopAdStub.get()
@@ -32,7 +32,7 @@ suspend fun ApplicationCall.readAd() {
 
 suspend fun ApplicationCall.updateAd() {
     val request = apiV2Mapper.decodeFromString<AdUpdateRequest>(receiveText())
-    val context = AdContext()
+    val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
     context.adResponse = AutoShopAdStub.get()
@@ -41,7 +41,7 @@ suspend fun ApplicationCall.updateAd() {
 
 suspend fun ApplicationCall.deleteAd() {
     val request = apiV2Mapper.decodeFromString<AdDeleteRequest>(receiveText())
-    val context = AdContext()
+    val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
     context.adResponse = AutoShopAdStub.get()
@@ -50,9 +50,9 @@ suspend fun ApplicationCall.deleteAd() {
 
 suspend fun ApplicationCall.searchAd() {
     val request = apiV2Mapper.decodeFromString<AdSearchRequest>(receiveText())
-    val context = AdContext()
+    val context = AsAdContext()
     context.fromTransport(request)
     /** TODO! Пока нет бизнес-логики используем stub */
-    context.adsResponse.addAll(AutoShopAdStub.prepareSearchList("Нива", EAutoShopDealSide.DEMAND))
+    context.adsResponse.addAll(AutoShopAdStub.prepareSearchList("Нива", EAsDealSide.DEMAND))
     respond(apiV2Mapper.encodeToString(context.toTransportSearch()))
 }

@@ -3,11 +3,11 @@ package ru.drvshare.autoshop.cor.handlers
 import ru.drvshare.autoshop.cor.ICorExec
 import ru.drvshare.autoshop.cor.ICorExecDsl
 
-abstract class AbstractCorExec<T>(
+abstract class ACorExec<T>(
     override val title: String,
     override val description: String = "",
     private val blockOn: suspend T.() -> Boolean = { true },
-    private val blockExcept: suspend T.(Throwable) -> Unit = {},
+    private val blockExcept: suspend T.(Throwable) -> Unit = { throw it },
 ) : ICorExec<T> {
     protected abstract suspend fun handle(context: T)
 

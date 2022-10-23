@@ -3,10 +3,10 @@ package ru.drvshare.autoshop.mappers.v2
 import ru.drvshare.autoshop.api.v2.models.*
 import ru.drvshare.autoshop.common.models.*
 
-internal fun List<AutoShopAd>.toTransportAd(): List<AdResponseObject>? = this.map { it.toTransportAd() }.toList().takeIf { it.isNotEmpty() }
+internal fun List<AsAd>.toTransportAd(): List<AdResponseObject>? = this.map { it.toTransportAd() }.toList().takeIf { it.isNotEmpty() }
 
-internal fun AutoShopAd.toTransportAd(): AdResponseObject = AdResponseObject(
-    id = id.takeIf { it != AutoShopAdId.NONE }?.asString(),
+internal fun AsAd.toTransportAd(): AdResponseObject = AdResponseObject(
+    id = id.takeIf { it != AsAdId.NONE }?.asString(),
     title = title.takeIf { it.isNotBlank() },
     description = description.takeIf { it.isNotBlank() },
     releaseYear = releaseYear?.year,
@@ -15,60 +15,60 @@ internal fun AutoShopAd.toTransportAd(): AdResponseObject = AdResponseObject(
     engineType = engineType.toTransportAd(),
     transmission = transmission.toTransportAd(),
     steering = steering.toTransportAd(),
-    ownerId = ownerId.takeIf { it != AdUserId.NONE }?.asString(),
+    ownerId = ownerId.takeIf { it != AsUserId.NONE }?.asString(),
     adType = adType.toTransportAd(),
     visibility = visibility.toTransportAd(),
     permissions = permissionsClient.toTransportAd(),
-    productId = productId.takeIf { it != AdProductId.NONE }?.asString(),
+    productId = productId.takeIf { it != AsProductId.NONE }?.asString(),
 )
 
-private fun EAutoSteering.toTransportAd(): ESteering = when (this) {
-    EAutoSteering.LEFT_HAND_DRIVE -> ESteering.LEFT_HAND_DRIVE
-    EAutoSteering.RIGHT_HAND_DRIVE -> ESteering.RIGHT_HAND_DRIVE
+private fun EAsSteering.toTransportAd(): ESteering = when (this) {
+    EAsSteering.LEFT_HAND_DRIVE -> ESteering.LEFT_HAND_DRIVE
+    EAsSteering.RIGHT_HAND_DRIVE -> ESteering.RIGHT_HAND_DRIVE
     else -> ESteering.UNDEFINED
 }
 
-private fun EAutoEngineType.toTransportAd() = when (this) {
-    EAutoEngineType.DIESEL -> EEngineType.DIESEL
-    EAutoEngineType.ELECTRIC -> EEngineType.ELECTRIC
-    EAutoEngineType.PETROL -> EEngineType.PETROL
+private fun EAsEngineType.toTransportAd() = when (this) {
+    EAsEngineType.DIESEL -> EEngineType.DIESEL
+    EAsEngineType.ELECTRIC -> EEngineType.ELECTRIC
+    EAsEngineType.PETROL -> EEngineType.PETROL
     else -> EEngineType.UNDEFINED
 }
 
-private fun EAutoTransmission.toTransportAd() = when (this) {
-    EAutoTransmission.MANUAL -> ETransmission.MANUAL
-    EAutoTransmission.AUTOMATIC -> ETransmission.AUTOMATIC
-    EAutoTransmission.ROBOT -> ETransmission.ROBOT
+private fun EAsTransmission.toTransportAd() = when (this) {
+    EAsTransmission.MANUAL -> ETransmission.MANUAL
+    EAsTransmission.AUTOMATIC -> ETransmission.AUTOMATIC
+    EAsTransmission.ROBOT -> ETransmission.ROBOT
     else -> ETransmission.UNDEFINED
 }
 
-private fun Set<EAutoShopAdPermissionClient>.toTransportAd(): Set<EAdPermissions>? = this.map { it.toTransportAd() }.toSet().takeIf { it.isNotEmpty() }
+private fun Set<EAsAdPermissionClient>.toTransportAd(): Set<EAdPermissions>? = this.map { it.toTransportAd() }.toSet().takeIf { it.isNotEmpty() }
 
-private fun EAutoShopAdPermissionClient.toTransportAd() = when (this) {
-    EAutoShopAdPermissionClient.READ -> EAdPermissions.READ
-    EAutoShopAdPermissionClient.UPDATE -> EAdPermissions.UPDATE
-    EAutoShopAdPermissionClient.MAKE_VISIBLE_OWNER -> EAdPermissions.MAKE_VISIBLE_OWN
-    EAutoShopAdPermissionClient.MAKE_VISIBLE_GROUP -> EAdPermissions.MAKE_VISIBLE_GROUP
-    EAutoShopAdPermissionClient.MAKE_VISIBLE_PUBLIC -> EAdPermissions.MAKE_VISIBLE_PUBLIC
-    EAutoShopAdPermissionClient.DELETE -> EAdPermissions.DELETE
+private fun EAsAdPermissionClient.toTransportAd() = when (this) {
+    EAsAdPermissionClient.READ -> EAdPermissions.READ
+    EAsAdPermissionClient.UPDATE -> EAdPermissions.UPDATE
+    EAsAdPermissionClient.MAKE_VISIBLE_OWNER -> EAdPermissions.MAKE_VISIBLE_OWN
+    EAsAdPermissionClient.MAKE_VISIBLE_GROUP -> EAdPermissions.MAKE_VISIBLE_GROUP
+    EAsAdPermissionClient.MAKE_VISIBLE_PUBLIC -> EAdPermissions.MAKE_VISIBLE_PUBLIC
+    EAsAdPermissionClient.DELETE -> EAdPermissions.DELETE
 }
 
-private fun EAutoShopAdVisibility.toTransportAd(): EAdVisibility? = when (this) {
-    EAutoShopAdVisibility.VISIBLE_PUBLIC -> EAdVisibility.PUBLIC
-    EAutoShopAdVisibility.VISIBLE_TO_GROUP -> EAdVisibility.REGISTERED_ONLY
-    EAutoShopAdVisibility.VISIBLE_TO_OWNER -> EAdVisibility.OWNER_ONLY
-    EAutoShopAdVisibility.NONE -> null
+private fun EAsAdVisibility.toTransportAd(): EAdVisibility? = when (this) {
+    EAsAdVisibility.VISIBLE_PUBLIC -> EAdVisibility.PUBLIC
+    EAsAdVisibility.VISIBLE_TO_GROUP -> EAdVisibility.REGISTERED_ONLY
+    EAsAdVisibility.VISIBLE_TO_OWNER -> EAdVisibility.OWNER_ONLY
+    EAsAdVisibility.NONE -> null
 }
 
-private fun EAutoShopDealSide.toTransportAd(): EDealSide? = when (this) {
-    EAutoShopDealSide.DEMAND -> EDealSide.DEMAND
-    EAutoShopDealSide.SUPPLY -> EDealSide.SUPPLY
-    EAutoShopDealSide.NONE -> null
+private fun EAsDealSide.toTransportAd(): EDealSide? = when (this) {
+    EAsDealSide.DEMAND -> EDealSide.DEMAND
+    EAsDealSide.SUPPLY -> EDealSide.SUPPLY
+    EAsDealSide.NONE -> null
 }
 
-internal fun List<AdError>.toTransportErrors(): List<Error>? = this.map { it.toTransportAd() }.toList().takeIf { it.isNotEmpty() }
+internal fun List<AsError>.toTransportErrors(): List<Error>? = this.map { it.toTransportAd() }.toList().takeIf { it.isNotEmpty() }
 
-private fun AdError.toTransportAd() = Error(
+private fun AsError.toTransportAd() = Error(
     code = code.takeIf { it.isNotBlank() },
     group = group.takeIf { it.isNotBlank() },
     field = field.takeIf { it.isNotBlank() },
