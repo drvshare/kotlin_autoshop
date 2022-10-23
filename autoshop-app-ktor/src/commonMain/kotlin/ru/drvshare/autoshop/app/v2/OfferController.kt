@@ -11,7 +11,6 @@ import ru.drvshare.autoshop.common.AsAdContext
 import ru.drvshare.autoshop.common.models.EAsDealSide
 import ru.drvshare.autoshop.mappers.v2.fromTransport
 import ru.drvshare.autoshop.mappers.v2.toTransportOffers
-import ru.drvshare.autoshop.stubs.AutoShopAdStub
 
 suspend fun ApplicationCall.offersAd() {
     val request = apiV2Mapper.decodeFromString<AdOffersRequest>(receiveText())

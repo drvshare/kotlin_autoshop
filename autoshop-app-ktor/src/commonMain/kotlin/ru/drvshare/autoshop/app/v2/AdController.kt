@@ -10,7 +10,6 @@ import ru.drvshare.autoshop.api.v2.models.*
 import ru.drvshare.autoshop.common.AsAdContext
 import ru.drvshare.autoshop.common.models.EAsDealSide
 import ru.drvshare.autoshop.mappers.v2.*
-import ru.drvshare.autoshop.stubs.AutoShopAdStub
 
 suspend fun ApplicationCall.createAd() {
     val request = apiV2Mapper.decodeFromString<AdCreateRequest>(receiveText())

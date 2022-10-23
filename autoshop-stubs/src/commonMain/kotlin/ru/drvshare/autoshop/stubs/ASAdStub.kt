@@ -3,7 +3,7 @@ package ru.drvshare.autoshop.stubs
 import kotlinx.datetime.LocalDate
 import ru.drvshare.autoshop.common.models.*
 
-object AutoShopAdStub {
+object ASAdStub {
     fun get() = AsAd(
         id = AsAdId("666"),
         title = "Ищем автомобиль Нива",
