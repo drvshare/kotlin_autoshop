@@ -4,4 +4,5 @@ enum class EAsState {
     NONE,
     RUNNING,
     FAILING,
+    FINISHING,
 }

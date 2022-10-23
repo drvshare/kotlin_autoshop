@@ -21,7 +21,7 @@ data class AsAd(
     val steering: EAsSteering = EAsSteering.UNDEFINED,
 
     var ownerId: AsUserId = AsUserId.NONE,
-    val adType: EAsDealSide = EAsDealSide.NONE,
+    var adType: EAsDealSide = EAsDealSide.NONE,
     var visibility: EAsAdVisibility = EAsAdVisibility.NONE,
     var productId: AsProductId = AsProductId.NONE,
     val permissionsClient: MutableSet<EAsAdPermissionClient> = mutableSetOf()

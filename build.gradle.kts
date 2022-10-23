@@ -18,8 +18,3 @@ subprojects {
     group = rootProject.group
     version = rootProject.version
 }
-
-/*
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}*/
