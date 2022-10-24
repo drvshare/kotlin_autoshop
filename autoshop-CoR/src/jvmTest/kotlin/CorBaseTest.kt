@@ -119,9 +119,8 @@ class CorBaseTest {
     }
 
     @Test
-    fun `complex chain example`() {
-        val ctx = execute(
-            rootChain<TestContext> {
+    fun `complex chain example`() = runBlocking {
+        val chain = rootChain<TestContext> {
                 worker {
                     title = "Инициализация статуса"
                     description = "При старте обработки цепочки, статус еще не установлен. Проверяем его"
@@ -142,7 +141,7 @@ class CorBaseTest {
                     }
                 }
 
-                chain {
+            parallel {
                     on {
                         some < 15
                     }
@@ -154,12 +153,14 @@ class CorBaseTest {
 
                 printResult()
 
-            })
+        }.build()
 
+        val ctx = TestContext()
+        chain.exec(ctx)
         println("Complete: $ctx")
     }
-
 }
+
 
 private fun ICorChainDsl<TestContext>.printResult() = worker(title = "Print example") {
     println("some = $some")

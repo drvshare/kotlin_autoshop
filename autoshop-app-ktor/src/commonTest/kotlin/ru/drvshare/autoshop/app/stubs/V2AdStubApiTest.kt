@@ -1,40 +1,35 @@
-package ru.drvshare.autoshop.stubs
+package ru.drvshare.autoshop.app.stubs
 
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.server.application.*
 import io.ktor.server.testing.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
-import org.junit.Test
 import ru.drvshare.autoshop.api.v2.apiV2Mapper
 import ru.drvshare.autoshop.api.v2.models.*
+import ru.drvshare.autoshop.app.module
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class V2AdStubApiTest {
 
     @Test
-    fun `test create`() = testApplication {
+    fun create() = testApplication {
+        application { module() }
         val response = client.post("/v2/ad/create") {
             val requestObj = AdCreateRequest(
-                requestType = "create",
                 requestId = "12345",
                 ad = AdCreateObject(
-                    title = "title",
-                    description = "desc",
-                    releaseYear = 1999,
-                    odometer = "25000",
-                    engineCapacity = "1700",
-                    engineType = EEngineType.DIESEL,
-                    transmission = ETransmission.MANUAL,
-                    steering = ESteering.LEFT_HAND_DRIVE,
-
+                    title = "Болт",
+                    description = "КРУТЕЙШИЙ",
                     adType = EDealSide.DEMAND,
                     visibility = EAdVisibility.PUBLIC,
                 ),
                 debug = AdDebug(
                     mode = EAdRequestDebugMode.STUB,
-                    stub = EAdRequestDebugStubs.SUCCESS,
+                    stub = EAdRequestDebugStubs.SUCCESS
                 )
             )
             contentType(ContentType.Application.Json)
@@ -48,15 +43,15 @@ class V2AdStubApiTest {
     }
 
     @Test
-    fun `test read`() = testApplication {
+    fun read() = testApplication {
+        application(Application::module)
         val response = client.post("/v2/ad/read") {
             val requestObj = AdReadRequest(
-                requestType = "read",
                 requestId = "12345",
                 ad = AdReadObject("666"),
                 debug = AdDebug(
                     mode = EAdRequestDebugMode.STUB,
-                    stub = EAdRequestDebugStubs.SUCCESS,
+                    stub = EAdRequestDebugStubs.SUCCESS
                 )
             )
             contentType(ContentType.Application.Json)
@@ -70,27 +65,21 @@ class V2AdStubApiTest {
     }
 
     @Test
-    fun `test update`() = testApplication {
+    fun update() = testApplication {
+        application(Application::module)
         val response = client.post("/v2/ad/update") {
             val requestObj = AdUpdateRequest(
-                requestType = "update",
                 requestId = "12345",
                 ad = AdUpdateObject(
-                    title = "title",
-                    description = "desc",
-                    releaseYear = 1999,
-                    odometer = "25000",
-                    engineCapacity = "1700",
-                    engineType = EEngineType.DIESEL,
-                    transmission = ETransmission.MANUAL,
-                    steering = ESteering.LEFT_HAND_DRIVE,
-
+                    id = "666",
+                    title = "Болт",
+                    description = "КРУТЕЙШИЙ",
                     adType = EDealSide.DEMAND,
                     visibility = EAdVisibility.PUBLIC,
                 ),
                 debug = AdDebug(
                     mode = EAdRequestDebugMode.STUB,
-                    stub = EAdRequestDebugStubs.SUCCESS,
+                    stub = EAdRequestDebugStubs.SUCCESS
                 )
             )
             contentType(ContentType.Application.Json)
@@ -104,10 +93,10 @@ class V2AdStubApiTest {
     }
 
     @Test
-    fun `test delete`() = testApplication {
+    fun delete() = testApplication {
+        application(Application::module)
         val response = client.post("/v2/ad/delete") {
             val requestObj = AdDeleteRequest(
-                requestType = "delete",
                 requestId = "12345",
                 ad = AdDeleteObject(
                     id = "666",
@@ -115,7 +104,7 @@ class V2AdStubApiTest {
                 ),
                 debug = AdDebug(
                     mode = EAdRequestDebugMode.STUB,
-                    stub = EAdRequestDebugStubs.SUCCESS,
+                    stub = EAdRequestDebugStubs.SUCCESS
                 )
             )
             contentType(ContentType.Application.Json)
@@ -129,15 +118,15 @@ class V2AdStubApiTest {
     }
 
     @Test
-    fun `test search`() = testApplication {
+    fun search() = testApplication {
+        application(Application::module)
         val response = client.post("/v2/ad/search") {
             val requestObj = AdSearchRequest(
-                requestType = "search",
                 requestId = "12345",
                 adFilter = AdSearchFilter(),
                 debug = AdDebug(
                     mode = EAdRequestDebugMode.STUB,
-                    stub = EAdRequestDebugStubs.SUCCESS,
+                    stub = EAdRequestDebugStubs.SUCCESS
                 )
             )
             contentType(ContentType.Application.Json)
@@ -151,17 +140,17 @@ class V2AdStubApiTest {
     }
 
     @Test
-    fun `test offers`() = testApplication {
+    fun offers() = testApplication {
+        application(Application::module)
         val response = client.post("/v2/ad/offers") {
             val requestObj = AdOffersRequest(
-                requestType = "offers",
                 requestId = "12345",
                 ad = AdReadObject(
                     id = "666"
                 ),
                 debug = AdDebug(
                     mode = EAdRequestDebugMode.STUB,
-                    stub = EAdRequestDebugStubs.SUCCESS,
+                    stub = EAdRequestDebugStubs.SUCCESS
                 )
             )
             contentType(ContentType.Application.Json)
