@@ -2,6 +2,7 @@ package ru.drvshare.autoshop.cor
 
 import ru.drvshare.autoshop.cor.handlers.CorChainDsl
 import ru.drvshare.autoshop.cor.handlers.CorWorkerDsl
+import ru.drvshare.autoshop.cor.handlers.executeParallel
 
 
 /**
@@ -68,11 +69,9 @@ fun <T> ICorChainDsl<T>.chain(function: ICorChainDsl<T>.() -> Unit) {
  * Создает цепочку, элементы которой исполняются параллельно. Будьте аккуратны с доступом к контексту -
  * при необходимости используйте синхронизацию
  */
-/*
 fun <T> ICorChainDsl<T>.parallel(function: ICorChainDsl<T>.() -> Unit) {
     add(CorChainDsl<T>(::executeParallel).apply(function))
 }
-*/
 
 /**
  * Создает рабочего

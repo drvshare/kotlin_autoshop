@@ -7,7 +7,7 @@ kotlin {
     // Если есть другие платформы, то IDEA не видит библиотеку kotlinx
     // Пока не понял как с этим бороться поэтому пока закомитил
 //    macosX64 {}
-//    linuxX64 {}
+    linuxX64 {}
 
     sourceSets {
         val coroutinesVersion: String by project

@@ -24,12 +24,12 @@ repositories {
 }
 
 application {
-//    mainClass.set("io.ktor.server.netty.EngineMain")
-    mainClass.set("ru.drvshare.autoshop.ApplicationKt")
+    mainClass.set("io.ktor.server.cio.EngineMain")
+//    mainClass.set("ru.drvshare.autoshop.app.ApplicationJvmKt")
 }
 
 kotlin {
-    jvm {}
+    jvm { withJava() }
 
     val nativeTarget = when (System.getProperty("os.name")) {
         "Mac OS X" -> macosX64("native")
@@ -42,7 +42,7 @@ kotlin {
     nativeTarget.apply {
         binaries {
             executable {
-                entryPoint = "ru.drvshare.autoshop.main"
+                entryPoint = "ru.drvshare.autoshop.app.main"
             }
         }
     }
@@ -55,12 +55,24 @@ kotlin {
 
                 implementation(project(":autoshop-common"))
                 implementation(project(":autoshop-transport-main-openapi-v2"))
-//                implementation(project(":autoshop-biz"))
+                implementation(project(":autoshop-biz"))
                 implementation(project(":autoshop-mappers-v2"))
                 implementation(project(":autoshop-stubs"))
 
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
+                implementation("io.ktor:ktor-server-core:$ktorVersion")
+                implementation("io.ktor:ktor-server-cio:$ktorVersion")
+                implementation("io.ktor:ktor-server-auth:$ktorVersion")
+                implementation(ktor("auto-head-response"))
+                implementation(ktor("caching-headers"))
+                implementation(ktor("cors"))
+                implementation(ktor("websockets"))
+                implementation(ktor("config-yaml"))
+//                implementation("io.ktor:ktor-server-auth-jwt:$ktorVersion")
+                implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+                implementation("io.ktor:ktor-serialization:$ktorVersion")
             }
         }
         @Suppress("UNUSED_VARIABLE")
@@ -68,15 +80,16 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+
+                implementation(ktor("test-host"))
+                implementation(ktor("content-negotiation", prefix = "client-"))
+                implementation(ktor("websockets", prefix = "client-"))
             }
         }
+
+        @Suppress("UNUSED_VARIABLE")
         val nativeMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-server-core:$ktorVersion")
-                implementation("io.ktor:ktor-server-cio:$ktorVersion")
-
-                implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
             }
         }
         @Suppress("UNUSED_VARIABLE")
@@ -85,29 +98,14 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
+
+        @Suppress("UNUSED_VARIABLE")
         val jvmMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                implementation(ktor("core")) // "io.ktor:ktor-server-core:$ktorVersion"
-                implementation(ktor("netty")) // "io.ktor:ktor-ktor-server-netty:$ktorVersion"
-
                 // jackson
                 implementation(ktor("jackson", "serialization")) // io.ktor:ktor-serialization-jackson
-                implementation(ktor("content-negotiation")) // io.ktor:ktor-server-content-negotiation
-                implementation(ktor("kotlinx-json", "serialization")) // io.ktor:ktor-serialization-kotlinx-json
-
-                implementation(ktor("locations"))
-                implementation(ktor("caching-headers"))
                 implementation(ktor("call-logging"))
-                implementation(ktor("auto-head-response"))
-                implementation(ktor("cors")) // "io.ktor:ktor-cors:$ktorVersion"
-                implementation(ktor("default-headers")) // "io.ktor:ktor-cors:$ktorVersion"
-                implementation(ktor("cors")) // "io.ktor:ktor-cors:$ktorVersion"
-                implementation(ktor("auto-head-response"))
-                implementation(ktor("websockets"))
-
-                implementation(ktor("websockets")) // "io.ktor:ktor-websockets:$ktorVersion"
-                implementation(ktor("auth")) // "io.ktor:ktor-auth:$ktorVersion"
                 implementation(ktor("auth-jwt")) // "io.ktor:ktor-auth-jwt:$ktorVersion"
 
                 implementation("ch.qos.logback:logback-classic:$logbackVersion")
@@ -123,16 +121,13 @@ kotlin {
 
                 // Stubs
                 implementation(project(":autoshop-stubs"))
-//                implementation(project(":autoshop-biz"))
+                implementation(project(":autoshop-biz"))
             }
         }
         @Suppress("UNUSED_VARIABLE")
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation(ktor("test-host")) // "io.ktor:ktor-server-test-host:$ktorVersion"
-                implementation(ktor("content-negotiation", prefix = "client-"))
-                implementation(ktor("websockets", prefix = "client-"))
             }
         }
     }

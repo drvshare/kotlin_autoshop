@@ -1,4 +1,4 @@
-package ru.drvshare.autoshop.api
+package ru.drvshare.autoshop.api.v1
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper

@@ -1,4 +1,4 @@
-package ru.drvshare.autoshop.biz.groups
+package ru.drvshare.autoshop.biz.general
 
 import ru.drvshare.autoshop.common.AsAdContext
 import ru.drvshare.autoshop.common.models.EAsCommand

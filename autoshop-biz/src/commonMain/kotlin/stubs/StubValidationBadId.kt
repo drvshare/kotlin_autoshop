@@ -1,4 +1,4 @@
-package ru.drvshare.autoshop.biz.workers
+package ru.drvshare.autoshop.biz.stubs
 
 import ru.drvshare.autoshop.cor.ICorChainDsl
 import ru.drvshare.autoshop.cor.worker
@@ -7,16 +7,17 @@ import ru.drvshare.autoshop.common.models.AsError
 import ru.drvshare.autoshop.common.models.EAsState
 import ru.drvshare.autoshop.common.stubs.EAsAdStubs
 
-fun ICorChainDsl<AsAdContext>.stubDbError(title: String) = worker {
+fun ICorChainDsl<AsAdContext>.stubValidationBadId(title: String) = worker {
     this.title = title
-    on { stubCase == EAsAdStubs.DB_ERROR && state == EAsState.RUNNING }
+    on { stubCase == EAsAdStubs.BAD_ID && state == EAsState.RUNNING }
     handle {
         state = EAsState.FAILING
         this.errors.add(
             AsError(
-                group = "internal",
-                code = "internal-db",
-                message = "Internal error"
+                group = "validation",
+                code = "validation-id",
+                field = "id",
+                message = "Wrong id field"
             )
         )
     }

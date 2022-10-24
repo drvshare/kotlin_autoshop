@@ -1,4 +1,4 @@
-package ru.drvshare.autoshop.biz.workers
+package ru.drvshare.autoshop.biz.stubs
 
 import ru.drvshare.autoshop.cor.ICorChainDsl
 import ru.drvshare.autoshop.cor.worker
@@ -7,17 +7,16 @@ import ru.drvshare.autoshop.common.models.AsError
 import ru.drvshare.autoshop.common.models.EAsState
 import ru.drvshare.autoshop.common.stubs.EAsAdStubs
 
-fun ICorChainDsl<AsAdContext>.stubValidationBadDescription(title: String) = worker {
+fun ICorChainDsl<AsAdContext>.stubDbError(title: String) = worker {
     this.title = title
-    on { stubCase == EAsAdStubs.BAD_DESCRIPTION && state == EAsState.RUNNING }
+    on { stubCase == EAsAdStubs.DB_ERROR && state == EAsState.RUNNING }
     handle {
         state = EAsState.FAILING
         this.errors.add(
             AsError(
-                group = "validation",
-                code = "validation-description",
-                field = "description",
-                message = "Wrong description field"
+                group = "internal",
+                code = "internal-db",
+                message = "Internal error"
             )
         )
     }

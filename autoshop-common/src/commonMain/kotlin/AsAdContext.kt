@@ -16,6 +16,14 @@ data class AsAdContext(
     var timeStart: Instant = Instant.NONE,
     var adRequest: AsAd = AsAd(),
     var adFilterRequest: AsAdFilter = AsAdFilter(),
+
+    var adValidating: AsAd = AsAd(),
+    var adFilterValidating: AsAdFilter = AsAdFilter(),
+
+    var adValidated: AsAd = AsAd(),
+    var adFilterValidated: AsAdFilter = AsAdFilter(),
+
+
     var adResponse: AsAd = AsAd(),
     var adsResponse: MutableList<AsAd> = mutableListOf(),
 )

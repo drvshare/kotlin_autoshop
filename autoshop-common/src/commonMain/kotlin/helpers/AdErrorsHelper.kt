@@ -16,8 +16,42 @@ fun Throwable.asAutoShopError(
     exception = this,
 )
 
-fun AsAdContext.addError(error: AsError) = errors.add(error)
-fun AsAdContext.fail(error: AsError) {
-    addError(error)
+fun AsAdContext.addError(vararg error: AsError) = errors.addAll(error)
+fun AsAdContext.fail(vararg error: AsError) {
+    addError(*error)
     state = EAsState.FAILING
 }
+
+fun errorValidation(
+    field: String,
+    /**
+     * Код, характеризующий ошибку. Не должен включать имя поля или указание на валидацию.
+     * Например: empty, badSymbols, tooLong, etc
+     */
+    violationCode: String,
+    description: String,
+    level: AsError.Levels = AsError.Levels.ERROR,
+) = AsError(
+    code = "validation-$field-$violationCode",
+    field = field,
+    group = "validation",
+    message = "Validation error for field $field: $description",
+    level = level,
+)
+
+fun errorMapping(
+    field: String,
+    /**
+     * Код, характеризующий ошибку. Не должен включать имя поля или указание на валидацию.
+     * Например: empty, badSymbols, tooLong, etc
+     */
+    violationCode: String,
+    description: String,
+    level: AsError.Levels = AsError.Levels.ERROR,
+) = AsError(
+    code = "mapping-$field-$violationCode",
+    field = field,
+    group = "mapping",
+    message = "Mapping error for field $field: $description",
+    level = level,
+)

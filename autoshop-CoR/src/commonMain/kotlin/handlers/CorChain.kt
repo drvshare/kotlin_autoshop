@@ -33,7 +33,7 @@ suspend fun <T> executeSequential(execs: List<ICorExec<T>>, context: T): Unit =
 /**
  * Стратегия параллельного исполнения
  */
-suspend fun <T> executeParallel(context: T, execs: List<ICorExec<T>>): Unit = coroutineScope {
+suspend fun <T> executeParallel(execs: List<ICorExec<T>>, context: T): Unit = coroutineScope {
     execs.forEach {
         launch { it.exec(context) }
     }

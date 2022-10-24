@@ -1,4 +1,4 @@
-package ru.drvshare.autoshop.biz.workers
+package ru.drvshare.autoshop.biz.stubs
 
 import ru.drvshare.autoshop.cor.ICorChainDsl
 import ru.drvshare.autoshop.cor.worker

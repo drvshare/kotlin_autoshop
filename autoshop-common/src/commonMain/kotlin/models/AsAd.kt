@@ -2,7 +2,6 @@ package ru.drvshare.autoshop.common.models
 
 import kotlinx.datetime.LocalDate
 
-
 data class AsAd(
     var id: AsAdId = AsAdId.NONE,
     var title: String = "",
@@ -24,5 +23,17 @@ data class AsAd(
     var adType: EAsDealSide = EAsDealSide.NONE,
     var visibility: EAsAdVisibility = EAsAdVisibility.NONE,
     var productId: AsProductId = AsProductId.NONE,
+    var lock: AsAdLock = AsAdLock.NONE,
     val permissionsClient: MutableSet<EAsAdPermissionClient> = mutableSetOf()
-)
+){
+    fun deepCopy(): AsAd = copy(
+        releaseYear = releaseYear,
+        odometer = odometer,
+        engineCapacity = engineCapacity,
+        engineType = engineType,
+        transmission = transmission,
+        steering = steering,
+        permissionsClient = permissionsClient.toMutableSet()
+    )
+}
+
