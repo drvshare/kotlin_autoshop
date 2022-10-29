@@ -1,6 +1,6 @@
 package ru.drvshare.autoshop.api.v1
 
-import ru.drvshare.autoshop.api.apiV1Mapper
+import ru.drvshare.autoshop.api.v1.apiV1Mapper
 import ru.drvshare.autoshop.api.v1.models.*
 import kotlin.test.Test
 import kotlin.test.assertContains

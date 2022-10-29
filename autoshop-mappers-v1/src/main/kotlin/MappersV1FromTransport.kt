@@ -2,13 +2,13 @@ package ru.drvshare.autoshop.mappers.v1
 
 import kotlinx.datetime.LocalDate
 import ru.drvshare.autoshop.api.v1.models.*
-import ru.drvshare.autoshop.common.AdContext
-import ru.drvshare.autoshop.common.models.AutoShopAd
-import ru.drvshare.autoshop.common.models.AutoShopAdFilter
-import ru.drvshare.autoshop.common.models.EAdCommand
+import ru.drvshare.autoshop.common.AsAdContext
+import ru.drvshare.autoshop.common.models.AsAd
+import ru.drvshare.autoshop.common.models.AsAdFilter
+import ru.drvshare.autoshop.common.models.EAsCommand
 import ru.drvshare.autoshop.mappers.v1.exceptions.UnknownRequestClass
 
-fun AdContext.fromTransport(request: IRequest) = when (request) {
+fun AsAdContext.fromTransport(request: IRequest) = when (request) {
     is AdCreateRequest -> fromTransport(request)
     is AdReadRequest -> fromTransport(request)
     is AdUpdateRequest -> fromTransport(request)
@@ -18,59 +18,59 @@ fun AdContext.fromTransport(request: IRequest) = when (request) {
     else -> throw UnknownRequestClass(request::class)
 }
 
-fun AdContext.fromTransport(request: AdCreateRequest) {
-    command = EAdCommand.CREATE
+fun AsAdContext.fromTransport(request: AdCreateRequest) {
+    command = EAsCommand.CREATE
     requestId = request.requestId()
-    adRequest = request.ad?.toInternal() ?: AutoShopAd()
+    adRequest = request.ad?.toInternal() ?: AsAd()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
 
-fun AdContext.fromTransport(request: AdReadRequest) {
-    command = EAdCommand.READ
-    requestId = request.requestId()
-    adRequest = request.ad?.id.toAdWithId()
-    workMode = request.debug.transportToWorkMode()
-    stubCase = request.debug.transportToStubCase()
-}
-
-fun AdContext.fromTransport(request: AdUpdateRequest) {
-    command = EAdCommand.UPDATE
-    requestId = request.requestId()
-    adRequest = request.ad?.toInternal() ?: AutoShopAd()
-    workMode = request.debug.transportToWorkMode()
-    stubCase = request.debug.transportToStubCase()
-}
-
-fun AdContext.fromTransport(request: AdDeleteRequest) {
-    command = EAdCommand.DELETE
+fun AsAdContext.fromTransport(request: AdReadRequest) {
+    command = EAsCommand.READ
     requestId = request.requestId()
     adRequest = request.ad?.id.toAdWithId()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
 
-fun AdContext.fromTransport(request: AdSearchRequest) {
-    command = EAdCommand.SEARCH
+fun AsAdContext.fromTransport(request: AdUpdateRequest) {
+    command = EAsCommand.UPDATE
+    requestId = request.requestId()
+    adRequest = request.ad?.toInternal() ?: AsAd()
+    workMode = request.debug.transportToWorkMode()
+    stubCase = request.debug.transportToStubCase()
+}
+
+fun AsAdContext.fromTransport(request: AdDeleteRequest) {
+    command = EAsCommand.DELETE
+    requestId = request.requestId()
+    adRequest = request.ad?.id.toAdWithId()
+    workMode = request.debug.transportToWorkMode()
+    stubCase = request.debug.transportToStubCase()
+}
+
+fun AsAdContext.fromTransport(request: AdSearchRequest) {
+    command = EAsCommand.SEARCH
     requestId = request.requestId()
     adFilterRequest = request.adFilter.toInternal()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
 
-fun AdContext.fromTransport(request: AdOffersRequest) {
-    command = EAdCommand.OFFERS
+fun AsAdContext.fromTransport(request: AdOffersRequest) {
+    command = EAsCommand.OFFERS
     requestId = request.requestId()
     adRequest = request.ad?.id.toAdWithId()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
 
-private fun AdSearchFilter?.toInternal(): AutoShopAdFilter = AutoShopAdFilter(
+private fun AdSearchFilter?.toInternal(): AsAdFilter = AsAdFilter(
     searchString = this?.searchString ?: ""
 )
 
-private fun AdCreateObject.toInternal(): AutoShopAd = AutoShopAd(
+private fun AdCreateObject.toInternal(): AsAd = AsAd(
     title = this.title ?: "",
     description = this.description ?: "",
     releaseYear = releaseYear?.let { LocalDate(it, 1, 1) },
@@ -84,7 +84,7 @@ private fun AdCreateObject.toInternal(): AutoShopAd = AutoShopAd(
     visibility = this.visibility.fromTransport(),
 )
 
-private fun AdUpdateObject.toInternal(): AutoShopAd = AutoShopAd(
+private fun AdUpdateObject.toInternal(): AsAd = AsAd(
     id = this.id.toAdId(),
     title = this.title ?: "",
     description = this.description ?: "",

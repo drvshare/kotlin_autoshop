@@ -1,6 +1,6 @@
 package ru.drvshare.autoshop.api.v1
 
-import ru.drvshare.autoshop.api.apiV1Mapper
+import ru.drvshare.autoshop.api.v1.apiV1Mapper
 import ru.drvshare.autoshop.api.v1.models.*
 import ru.drvshare.autoshop.api.v1.models.AdCreateRequest
 import kotlin.test.Test

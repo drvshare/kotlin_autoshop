@@ -1,58 +1,58 @@
 package ru.drvshare.autoshop.mappers.v1
 
 import ru.drvshare.autoshop.api.v1.models.*
-import ru.drvshare.autoshop.common.AdContext
+import ru.drvshare.autoshop.common.AsAdContext
 import ru.drvshare.autoshop.common.models.*
 import ru.drvshare.autoshop.mappers.v1.exceptions.UnknownAdCommand
 
-fun AdContext.toTransportAd(): IResponse = when (val cmd = command) {
-    EAdCommand.CREATE -> toTransportCreate()
-    EAdCommand.READ -> toTransportRead()
-    EAdCommand.UPDATE -> toTransportUpdate()
-    EAdCommand.DELETE -> toTransportDelete()
-    EAdCommand.SEARCH -> toTransportSearch()
-    EAdCommand.OFFERS -> toTransportOffers()
-    EAdCommand.NONE -> throw UnknownAdCommand(cmd)
+fun AsAdContext.toTransportAd(): IResponse = when (val cmd = command) {
+    EAsCommand.CREATE -> toTransportCreate()
+    EAsCommand.READ -> toTransportRead()
+    EAsCommand.UPDATE -> toTransportUpdate()
+    EAsCommand.DELETE -> toTransportDelete()
+    EAsCommand.SEARCH -> toTransportSearch()
+    EAsCommand.OFFERS -> toTransportOffers()
+    EAsCommand.NONE -> throw UnknownAdCommand(cmd)
 }
 
-fun AdContext.toTransportCreate() = AdCreateResponse(
+fun AsAdContext.toTransportCreate() = AdCreateResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == EAdState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
+    result = if (state == EAsState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     ad = adResponse.toTransportAd()
 )
 
-fun AdContext.toTransportRead() = AdReadResponse(
+fun AsAdContext.toTransportRead() = AdReadResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == EAdState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
+    result = if (state == EAsState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     ad = adResponse.toTransportAd()
 )
 
-fun AdContext.toTransportUpdate() = AdUpdateResponse(
+fun AsAdContext.toTransportUpdate() = AdUpdateResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == EAdState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
+    result = if (state == EAsState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     ad = adResponse.toTransportAd()
 )
 
-fun AdContext.toTransportDelete() = AdDeleteResponse(
+fun AsAdContext.toTransportDelete() = AdDeleteResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == EAdState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
+    result = if (state == EAsState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     ad = adResponse.toTransportAd()
 )
 
-fun AdContext.toTransportSearch() = AdSearchResponse(
+fun AsAdContext.toTransportSearch() = AdSearchResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == EAdState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
+    result = if (state == EAsState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     ads = adsResponse.toTransportAd()
 )
 
-fun AdContext.toTransportOffers() = AdOffersResponse(
+fun AsAdContext.toTransportOffers() = AdOffersResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == EAdState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
+    result = if (state == EAsState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     ads = adsResponse.toTransportAd()
 )

@@ -1,14 +1,14 @@
 package ru.drvshare.autoshop.common.helpers
 
-import ru.drvshare.autoshop.common.AdContext
-import ru.drvshare.autoshop.common.models.AdError
-import ru.drvshare.autoshop.common.models.EAdState
+import ru.drvshare.autoshop.common.AsAdContext
+import ru.drvshare.autoshop.common.models.AsError
+import ru.drvshare.autoshop.common.models.EAsState
 
 fun Throwable.asAutoShopError(
     code: String = "unknown",
     group: String = "exceptions",
     message: String = this.message ?: "",
-) = AdError(
+) = AsError(
     code = code,
     group = group,
     field = "",
@@ -16,8 +16,42 @@ fun Throwable.asAutoShopError(
     exception = this,
 )
 
-fun AdContext.addError(error: AdError) = errors.add(error)
-fun AdContext.fail(error: AdError) {
-    addError(error)
-    state = EAdState.FAILING
+fun AsAdContext.addError(vararg error: AsError) = errors.addAll(error)
+fun AsAdContext.fail(vararg error: AsError) {
+    addError(*error)
+    state = EAsState.FAILING
 }
+
+fun errorValidation(
+    field: String,
+    /**
+     * Код, характеризующий ошибку. Не должен включать имя поля или указание на валидацию.
+     * Например: empty, badSymbols, tooLong, etc
+     */
+    violationCode: String,
+    description: String,
+    level: AsError.Levels = AsError.Levels.ERROR,
+) = AsError(
+    code = "validation-$field-$violationCode",
+    field = field,
+    group = "validation",
+    message = "Validation error for field $field: $description",
+    level = level,
+)
+
+fun errorMapping(
+    field: String,
+    /**
+     * Код, характеризующий ошибку. Не должен включать имя поля или указание на валидацию.
+     * Например: empty, badSymbols, tooLong, etc
+     */
+    violationCode: String,
+    description: String,
+    level: AsError.Levels = AsError.Levels.ERROR,
+) = AsError(
+    code = "mapping-$field-$violationCode",
+    field = field,
+    group = "mapping",
+    message = "Mapping error for field $field: $description",
+    level = level,
+)

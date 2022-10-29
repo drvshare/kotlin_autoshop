@@ -3,9 +3,9 @@ package ru.drvshare.autoshop.mappers.v1
 import kotlinx.datetime.LocalDate
 import org.junit.Test
 import ru.drvshare.autoshop.api.v1.models.*
-import ru.drvshare.autoshop.common.AdContext
+import ru.drvshare.autoshop.common.AsAdContext
 import ru.drvshare.autoshop.common.models.*
-import ru.drvshare.autoshop.common.stubs.EAdStubs
+import ru.drvshare.autoshop.common.stubs.EAsAdStubs
 import kotlin.test.assertEquals
 
 
@@ -33,50 +33,50 @@ class MapperTest {
             ),
         )
 
-        val context = AdContext()
+        val context = AsAdContext()
         context.fromTransport(req)
 
-        assertEquals(EAdStubs.SUCCESS, context.stubCase)
-        assertEquals(EAdWorkMode.STUB, context.workMode)
+        assertEquals(EAsAdStubs.SUCCESS, context.stubCase)
+        assertEquals(EAsWorkMode.STUB, context.workMode)
         assertEquals("title", context.adRequest.title)
         assertEquals("desc", context.adRequest.description)
         assertEquals(LocalDate(1999, 1, 1), context.adRequest.releaseYear)
         assertEquals("25000", context.adRequest.odometer)
         assertEquals("1700", context.adRequest.engineCapacity)
-        assertEquals(EAutoEngineType.DIESEL, context.adRequest.engineType)
-        assertEquals(EAutoTransmission.MANUAL, context.adRequest.transmission)
-        assertEquals(EAutoSteering.LEFT_HAND_DRIVE, context.adRequest.steering)
+        assertEquals(EAsEngineType.DIESEL, context.adRequest.engineType)
+        assertEquals(EAsTransmission.MANUAL, context.adRequest.transmission)
+        assertEquals(EAsSteering.LEFT_HAND_DRIVE, context.adRequest.steering)
 
-        assertEquals(EAutoShopAdVisibility.VISIBLE_PUBLIC, context.adRequest.visibility)
-        assertEquals(EAutoShopDealSide.DEMAND, context.adRequest.adType)
+        assertEquals(EAsAdVisibility.VISIBLE_PUBLIC, context.adRequest.visibility)
+        assertEquals(EAsDealSide.DEMAND, context.adRequest.adType)
     }
 
     @Test
     fun toTransport() {
-        val context = AdContext(
-            requestId = AdRequestId("1234"),
-            command = EAdCommand.CREATE,
-            adResponse = AutoShopAd(
+        val context = AsAdContext(
+            requestId = AsAdRequestId("1234"),
+            command = EAsCommand.CREATE,
+            adResponse = AsAd(
                 title = "title",
                 description = "desc",
                 releaseYear = LocalDate(1999, 1, 1),
                 odometer = "25000",
                 engineCapacity = "1700",
-                engineType = EAutoEngineType.DIESEL,
-                transmission = EAutoTransmission.MANUAL,
-                steering = EAutoSteering.LEFT_HAND_DRIVE,
-                adType = EAutoShopDealSide.DEMAND,
-                visibility = EAutoShopAdVisibility.VISIBLE_PUBLIC,
+                engineType = EAsEngineType.DIESEL,
+                transmission = EAsTransmission.MANUAL,
+                steering = EAsSteering.LEFT_HAND_DRIVE,
+                adType = EAsDealSide.DEMAND,
+                visibility = EAsAdVisibility.VISIBLE_PUBLIC,
             ),
             errors = mutableListOf(
-                AdError(
+                AsError(
                     code = "err",
                     group = "request",
                     field = "title",
                     message = "wrong title",
                 )
             ),
-            state = EAdState.RUNNING,
+            state = EAsState.RUNNING,
         )
 
         val req = context.toTransportAd() as AdCreateResponse
