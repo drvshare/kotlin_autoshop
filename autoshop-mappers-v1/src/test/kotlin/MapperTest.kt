@@ -1,7 +1,7 @@
 package ru.drvshare.autoshop.mappers.v1
 
 import kotlinx.datetime.LocalDate
-import org.junit.Test
+import kotlin.test.Test
 import ru.drvshare.autoshop.api.v1.models.*
 import ru.drvshare.autoshop.common.AsAdContext
 import ru.drvshare.autoshop.common.models.*

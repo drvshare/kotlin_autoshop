@@ -1,7 +1,4 @@
 import org.jetbrains.kotlin.util.suffixIfNot
-import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
-import com.bmuschko.gradle.docker.tasks.image.Dockerfile
-import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 
 val ktorVersion: String by project
 val logbackVersion: String by project
@@ -14,9 +11,14 @@ fun ktor(module: String, prefix: String = "server-", version: String? = this@Bui
 plugins {
     id("application")
     id("com.bmuschko.docker-java-application")
-    id("com.bmuschko.docker-remote-api")
+//    id("com.bmuschko.docker-remote-api")
     kotlin("plugin.serialization")
-    kotlin("multiplatform")
+    kotlin("jvm")
+}
+dependencies {
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:2.1.2")
+    implementation("io.ktor:ktor-server-core-jvm:2.1.2")
+    implementation("io.ktor:ktor-serialization-jackson-jvm:2.1.2")
 }
 
 repositories {
@@ -24,88 +26,24 @@ repositories {
 }
 
 application {
-    mainClass.set("io.ktor.server.cio.EngineMain")
-//    mainClass.set("ru.drvshare.autoshop.app.ApplicationJvmKt")
+    mainClass.set("io.ktor.server.netty.EngineMain")
 }
 
 kotlin {
-    jvm { withJava() }
 
-    val nativeTarget = when (System.getProperty("os.name")) {
-        "Mac OS X" -> macosX64("native")
-        "Linux" -> linuxX64("native")
-        // Windows is currently not supported
-        // Other supported targets are listed here: https://ktor.io/docs/native-server.html#targets
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-    }
-
-    nativeTarget.apply {
-        binaries {
-            executable {
-                entryPoint = "ru.drvshare.autoshop.app.main"
-            }
-        }
-    }
     sourceSets {
         @Suppress("UNUSED_VARIABLE")
-        val commonMain by getting {
-            dependencies {
-                implementation(kotlin("stdlib-common"))
-                implementation(ktor("core")) // "io.ktor:ktor-server-core:$ktorVersion"
-
-                implementation(project(":autoshop-common"))
-                implementation(project(":autoshop-transport-main-openapi-v2"))
-                implementation(project(":autoshop-biz"))
-                implementation(project(":autoshop-mappers-v2"))
-                implementation(project(":autoshop-stubs"))
-
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion")
-                implementation("io.ktor:ktor-server-core:$ktorVersion")
-                implementation("io.ktor:ktor-server-cio:$ktorVersion")
-                implementation("io.ktor:ktor-server-auth:$ktorVersion")
-                implementation(ktor("auto-head-response"))
-                implementation(ktor("caching-headers"))
-                implementation(ktor("cors"))
-                implementation(ktor("websockets"))
-                implementation(ktor("config-yaml"))
-//                implementation("io.ktor:ktor-server-auth-jwt:$ktorVersion")
-                implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-                implementation("io.ktor:ktor-serialization:$ktorVersion")
-            }
-        }
-        @Suppress("UNUSED_VARIABLE")
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
-
-                implementation(ktor("test-host"))
-                implementation(ktor("content-negotiation", prefix = "client-"))
-                implementation(ktor("websockets", prefix = "client-"))
-            }
-        }
-
-        @Suppress("UNUSED_VARIABLE")
-        val nativeMain by getting {
-            dependencies {
-            }
-        }
-        @Suppress("UNUSED_VARIABLE")
-        val nativeTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
-
-        @Suppress("UNUSED_VARIABLE")
-        val jvmMain by getting {
+        val main by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
+
+                implementation(ktor("core"))
+                implementation(ktor("netty"))
                 // jackson
                 implementation(ktor("jackson", "serialization")) // io.ktor:ktor-serialization-jackson
+                implementation(ktor("content-negotiation", prefix = "client-"))
                 implementation(ktor("call-logging"))
+                implementation(ktor("cors"))
                 implementation(ktor("auth-jwt")) // "io.ktor:ktor-auth-jwt:$ktorVersion"
 
                 implementation("ch.qos.logback:logback-classic:$logbackVersion")
@@ -113,21 +51,21 @@ kotlin {
                 // transport models
                 implementation(project(":autoshop-common"))
                 implementation(project(":autoshop-transport-main-openapi-v1"))
-                implementation(project(":autoshop-transport-main-openapi-v2"))
+//                implementation(project(":autoshop-transport-main-openapi-v2"))
                 implementation(project(":autoshop-mappers-v1"))
-
-                // v2 api
-                implementation(project(":autoshop-mappers-v2"))
 
                 // Stubs
                 implementation(project(":autoshop-stubs"))
                 implementation(project(":autoshop-biz"))
             }
         }
+
         @Suppress("UNUSED_VARIABLE")
-        val jvmTest by getting {
+        val test by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
+                implementation(ktor("test-host"))
+                implementation(ktor("content-negotiation", prefix = "client-"))
             }
         }
     }
@@ -147,28 +85,6 @@ docker {
             )
         )
         jvmArgs.set(listOf("-Xms256m", "-Xmx512m"))
-    }
-}
-
-tasks {
-    val linkReleaseExecutableNative by getting(KotlinNativeLink::class)
-
-    val dockerDockerfile by creating(Dockerfile::class) {
-        group = "docker"
-        from("ubuntu:22.02")
-        doFirst {
-            copy {
-                from(linkReleaseExecutableNative.binary.outputFile)
-                into("${this@creating.temporaryDir}/app")
-            }
-        }
-        copyFile("app", "/app")
-        entryPoint("/app")
-    }
-    create("dockerBuildNativeImage", DockerBuildImage::class) {
-        group = "docker"
-        dependsOn(dockerDockerfile)
-        images.add("${project.name}:${project.version}")
     }
 }
 

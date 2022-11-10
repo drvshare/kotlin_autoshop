@@ -11,5 +11,4 @@ dependencies {
     implementation(project(":autoshop-common"))
 
     testImplementation(kotlin("test-junit"))
-
 }
