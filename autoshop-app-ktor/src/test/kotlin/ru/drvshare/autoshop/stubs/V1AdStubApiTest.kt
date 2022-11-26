@@ -18,7 +18,7 @@ class V1AdStubApiTest {
 
     @Test
     fun `test create`() = testApplication {
-        //application(Application::module)
+        application(Application::module)
 
         val client = myClient()
 
@@ -55,7 +55,7 @@ class V1AdStubApiTest {
 
     @Test
     fun `test read`() = testApplication {
-        //application(Application::module)
+        application(Application::module)
 
         val client = myClient()
 
@@ -79,7 +79,7 @@ class V1AdStubApiTest {
 
     @Test
     fun `test update`() = testApplication {
-        //application(Application::module)
+        application(Application::module)
 
         val client = myClient()
 
@@ -115,7 +115,7 @@ class V1AdStubApiTest {
 
     @Test
     fun `test delete`() = testApplication {
-        //application(Application::module)
+        application(Application::module)
 
         val client = myClient()
 
@@ -142,7 +142,7 @@ class V1AdStubApiTest {
 
     @Test
     fun `test search`() = testApplication {
-        //application(Application::module)
+        application(Application::module)
 
         val client = myClient()
 
@@ -166,7 +166,7 @@ class V1AdStubApiTest {
 
     @Test
     fun `test offers`() = testApplication {
-        //application(Application::module)
+        application(Application::module)
 
         val client = myClient()
 

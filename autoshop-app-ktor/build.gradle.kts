@@ -11,14 +11,7 @@ fun ktor(module: String, prefix: String = "server-", version: String? = this@Bui
 plugins {
     id("application")
     id("com.bmuschko.docker-java-application")
-//    id("com.bmuschko.docker-remote-api")
-    kotlin("plugin.serialization")
     kotlin("jvm")
-}
-dependencies {
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:2.1.2")
-    implementation("io.ktor:ktor-server-core-jvm:2.1.2")
-    implementation("io.ktor:ktor-serialization-jackson-jvm:2.1.2")
 }
 
 repositories {
@@ -27,6 +20,7 @@ repositories {
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
+//    mainClass.set("ru.drvshare.autoshop.app.ApplicationKt")
 }
 
 kotlin {
@@ -36,24 +30,34 @@ kotlin {
         val main by getting {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
+                implementation(kotlin("stdlib-common"))
 
                 implementation(ktor("core"))
                 implementation(ktor("netty"))
                 // jackson
                 implementation(ktor("jackson", "serialization")) // io.ktor:ktor-serialization-jackson
-                implementation(ktor("content-negotiation", prefix = "client-"))
                 implementation(ktor("call-logging"))
-                implementation(ktor("cors"))
                 implementation(ktor("auth-jwt")) // "io.ktor:ktor-auth-jwt:$ktorVersion"
+                implementation(ktor("content-negotiation", prefix = "client-"))//??
 
                 implementation("ch.qos.logback:logback-classic:$logbackVersion")
+
+
+                implementation("io.ktor:ktor-server-core:$ktorVersion")
+                implementation("io.ktor:ktor-server-auth:$ktorVersion")
+                implementation(ktor("auto-head-response"))
+                implementation(ktor("caching-headers"))
+                implementation(ktor("cors"))
+                implementation(ktor("websockets"))
+                implementation(ktor("config-yaml"))
+                implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-serialization:$ktorVersion")
 
                 // transport models
                 implementation(project(":autoshop-common"))
                 implementation(project(":autoshop-transport-main-openapi-v1"))
 //                implementation(project(":autoshop-transport-main-openapi-v2"))
                 implementation(project(":autoshop-mappers-v1"))
-
                 // Stubs
                 implementation(project(":autoshop-stubs"))
                 implementation(project(":autoshop-biz"))
@@ -64,8 +68,11 @@ kotlin {
         val test by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
                 implementation(ktor("test-host"))
                 implementation(ktor("content-negotiation", prefix = "client-"))
+                implementation(ktor("websockets", prefix = "client-"))
             }
         }
     }
