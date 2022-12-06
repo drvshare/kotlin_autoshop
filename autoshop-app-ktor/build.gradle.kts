@@ -1,8 +1,9 @@
 import org.jetbrains.kotlin.util.suffixIfNot
 
 val ktorVersion: String by project
-val logbackVersion: String by project
 val serializationVersion: String by project
+val logbackVersion: String by project
+val kotlinLoggingJvmVersion: String by project
 
 // ex: Converts to "io.ktor:ktor-ktor-server-netty:2.0.1" with only ktor("netty")
 fun ktor(module: String, prefix: String = "server-", version: String? = this@Build_gradle.ktorVersion): Any =
@@ -40,7 +41,10 @@ kotlin {
                 implementation(ktor("auth-jwt")) // "io.ktor:ktor-auth-jwt:$ktorVersion"
                 implementation(ktor("content-negotiation", prefix = "client-"))//??
 
+/*
                 implementation("ch.qos.logback:logback-classic:$logbackVersion")
+                implementation("io.github.microutils:kotlin-logging-jvm:$kotlinLoggingJvmVersion")
+*/
 
 
                 implementation("io.ktor:ktor-server-core:$ktorVersion")

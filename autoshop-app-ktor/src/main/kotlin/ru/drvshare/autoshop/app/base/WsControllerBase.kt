@@ -19,8 +19,9 @@ suspend fun WebSocketSession.mpWsHandler(
     fromTransport: AsAdContext.(request: String) -> Unit,
     toTransportBiz: AsAdContext.() -> String,
     toTransportInit: AsAdContext.() -> String,
+    apiVersion: String,
 ) {
-    val userSession = KtorUserSession(this, "v1")
+    val userSession = KtorUserSession(this, apiVersion)
     sessions.add(userSession)
     println(sessions.size)
     run {

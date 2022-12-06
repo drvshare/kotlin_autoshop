@@ -19,4 +19,5 @@ suspend fun WebSocketSession.asWsHandlerV1(
     fromTransport = { fromTransport(apiV1Mapper.readValue(it, IRequest::class.java)) },
     toTransportInit = { apiV1Mapper.writeValueAsString(toTransportInit()) },
     toTransportBiz = { apiV1Mapper.writeValueAsString(toTransportAd()) },
+    apiVersion = "v1"
 )

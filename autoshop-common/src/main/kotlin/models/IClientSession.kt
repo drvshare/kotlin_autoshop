@@ -7,7 +7,7 @@ interface IClientSession<T> {
     companion object {
         val NONE = object : IClientSession<Unit> {
             override val fwSession: Unit = Unit
-            override val apiVersion: String = "v1"
+            override val apiVersion: String = ""
         }
     }
 }

@@ -19,6 +19,7 @@ import io.ktor.server.websocket.*
 import org.slf4j.event.Level
 import ru.drvshare.autoshop.api.v1.apiV1Mapper
 import ru.drvshare.autoshop.app.base.KtorUserSession
+import ru.drvshare.autoshop.app.base.KtorWsSessions
 import ru.drvshare.autoshop.app.v1.asWsHandlerV1
 import ru.drvshare.autoshop.app.v1.v1Ad
 import ru.drvshare.autoshop.app.v1.v1Offer
@@ -78,7 +79,6 @@ fun Application.module() {
         level = Level.INFO
     }
     val processor = AsAdProcessor()
-    val sessionsV1 = mutableSetOf<KtorUserSession>()
     routing {
         route("v1") {
             v1Ad(processor)
@@ -86,7 +86,7 @@ fun Application.module() {
         }
 
         webSocket("/ws/v1") {
-            asWsHandlerV1(processor, sessionsV1)
+            asWsHandlerV1(processor, KtorWsSessions.sessions)
         }
 
 
