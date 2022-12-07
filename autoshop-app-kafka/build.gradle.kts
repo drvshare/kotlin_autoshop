@@ -39,6 +39,9 @@ dependencies {
     val atomicfuVersion: String by project
     val logbackVersion: String by project
     val kotlinLoggingJvmVersion: String by project
+    val testContainersVersion: String by project
+    val kotestVersion: String by project
+    val kotestExtensionsVersion: String by project
     implementation("org.apache.kafka:kafka-clients:$kafkaVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("org.jetbrains.kotlinx:atomicfu:$atomicfuVersion")
@@ -57,4 +60,9 @@ dependencies {
     implementation(project(":autoshop-biz"))
 
     testImplementation(kotlin("test-junit"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
+//    testImplementation("org.testcontainers:kafka:$testContainersVersion")
+//    testImplementation("org.testcontainers:junit-jupiter:$testContainersVersion")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
+    testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:$kotestExtensionsVersion")
 }
