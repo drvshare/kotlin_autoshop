@@ -196,6 +196,7 @@ components:
           delete: '#/components/schemas/AdDeleteResponse'
           search: '#/components/schemas/AdSearchResponse'
           offers: '#/components/schemas/AdOffersResponse'
+          init: '#/components/schemas/AdInitResponse'
     UserId:
       type: string
       description: Идентификатор пользователя
@@ -270,6 +271,11 @@ components:
         - leftHandDrive
         - rightHandDrive
         - undefined
+
+    AdInitResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+
     AdCreateObject:
       allOf:
         - $ref: '#/components/schemas/BaseAd'

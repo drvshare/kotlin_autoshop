@@ -26,6 +26,9 @@ val apiV2Mapper = Json {
                 else -> null
             }
         }
+        polymorphicDefault(IRequest::class) {
+            AdRequestSerializer
+        }
         polymorphicDefaultSerializer(IResponse::class) {
             @Suppress("UNCHECKED_CAST")
             when(it) {
@@ -35,11 +38,25 @@ val apiV2Mapper = Json {
                 is AdDeleteResponse ->  ResponseSerializer(AdDeleteResponse.serializer()) as SerializationStrategy<IResponse>
                 is AdSearchResponse ->  ResponseSerializer(AdSearchResponse.serializer()) as SerializationStrategy<IResponse>
                 is AdOffersResponse ->  ResponseSerializer(AdOffersResponse.serializer()) as SerializationStrategy<IResponse>
+                is AdInitResponse ->  ResponseSerializer(AdInitResponse.serializer()) as SerializationStrategy<IResponse>
                 else -> null
             }
+        }
+        polymorphicDefault(IResponse::class) {
+            AdResponseSerializer
         }
 
         contextual(AdRequestSerializer)
         contextual(AdResponseSerializer)
     }
 }
+
+fun apiV2ResponseSerialize(response: IResponse): String = apiV2Mapper.encodeToString(AdResponseSerializer, response)
+
+@Suppress("UNCHECKED_CAST")
+fun <T : Any> apiV2ResponseDeserialize(json: String): T = apiV2Mapper.decodeFromString(AdResponseSerializer, json) as T
+
+fun apiV2RequestSerialize(request: IRequest): String = apiV2Mapper.encodeToString(AdRequestSerializer, request)
+
+@Suppress("UNCHECKED_CAST")
+fun <T : Any> apiV2RequestDeserialize(json: String): T = apiV2Mapper.decodeFromString(AdRequestSerializer, json) as T

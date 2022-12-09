@@ -15,6 +15,12 @@ fun AsAdContext.toTransportAd(): IResponse = when (val cmd = command) {
     EAsCommand.NONE -> throw UnknownAdCommand(cmd)
 }
 
+fun AsAdContext.toTransportInit() = AdInitResponse(
+    requestId = this.requestId.asString().takeIf { it.isNotBlank() },
+    result = if (errors.isEmpty()) EResponseResult.SUCCESS else EResponseResult.ERROR,
+    errors = errors.toTransportErrors(),
+)
+
 fun AsAdContext.toTransportCreate() = AdCreateResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
     result = if (state == EAsState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
