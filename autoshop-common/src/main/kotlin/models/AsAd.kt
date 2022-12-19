@@ -35,5 +35,9 @@ data class AsAd(
         steering = steering,
         permissionsClient = permissionsClient.toMutableSet()
     )
+
+    companion object{
+        val NONE get() = AsAd()
+    }
 }
 

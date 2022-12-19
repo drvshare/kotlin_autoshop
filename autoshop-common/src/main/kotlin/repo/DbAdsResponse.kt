@@ -7,4 +7,11 @@ data class DbAdsResponse(
     override val data: List<AsAd>?,
     override val isSuccess: Boolean,
     override val errors: List<AsError> = emptyList(),
-) : IDbResponse<List<AsAd>>
+) : IDbResponse<List<AsAd>>{
+
+    companion object {
+        val MOCK_SUCCESS_EMPTY = DbAdsResponse(emptyList(), true)
+        val MOCK_SUCCESS_NONE get() =  DbAdsResponse(listOf(AsAd.NONE), true)
+    }
+}
+
