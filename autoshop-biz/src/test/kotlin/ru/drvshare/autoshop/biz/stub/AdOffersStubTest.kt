@@ -1,4 +1,4 @@
-package ru.drvshare.autoshop.biz.stub
+package ru.drvshare.autoshop.biz.stub.stub
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -13,40 +13,52 @@ import kotlin.test.assertTrue
 import kotlin.test.fail
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class AdSearchStubTest {
+class AdOffersStubTest {
 
     private val processor = AsAdProcessor()
-    private val filter = AsAdFilter(searchString = "Нива")
+    private val id = AsAdId("777")
 
     @Test
-    fun read() = runTest {
+    fun offers() = runTest {
 
         val ctx = AsAdContext(
-            command = EAsCommand.SEARCH,
+            command = EAsCommand.OFFERS,
             state = EAsState.NONE,
             workMode = EAsWorkMode.STUB,
             stubCase = EAsAdStubs.SUCCESS,
-            adFilterRequest = filter,
+            adRequest = AsAd(
+                id = id,
+            ),
         )
         processor.exec(ctx)
+
+        assertEquals(id, ctx.adResponse.id)
+
+        with(AsAdStub.get()) {
+            assertEquals(title, ctx.adResponse.title)
+            assertEquals(description, ctx.adResponse.description)
+            assertEquals(adType, ctx.adResponse.adType)
+            assertEquals(visibility, ctx.adResponse.visibility)
+        }
+
         assertTrue(ctx.adsResponse.size > 1)
         val first = ctx.adsResponse.firstOrNull() ?: fail("Empty response list")
-        assertTrue(first.title.contains(filter.searchString))
-        assertTrue(first.description.contains(filter.searchString))
-        with (AsAdStub.get()) {
-            assertEquals(adType, first.adType)
-            assertEquals(visibility, first.visibility)
-        }
+        assertTrue(first.title.contains(ctx.adResponse.title))
+        assertTrue(first.description.contains(ctx.adResponse.title))
+        assertEquals(EAsDealSide.SUPPLY, first.adType)
+        assertEquals(AsAdStub.get().visibility, first.visibility)
     }
 
     @Test
     fun badId() = runTest {
         val ctx = AsAdContext(
-            command = EAsCommand.SEARCH,
+            command = EAsCommand.OFFERS,
             state = EAsState.NONE,
             workMode = EAsWorkMode.STUB,
             stubCase = EAsAdStubs.BAD_ID,
-            adFilterRequest = filter,
+            adRequest = AsAd(
+                id = id,
+            ),
         )
         processor.exec(ctx)
         assertEquals(AsAd(), ctx.adResponse)
@@ -57,11 +69,13 @@ class AdSearchStubTest {
     @Test
     fun databaseError() = runTest {
         val ctx = AsAdContext(
-            command = EAsCommand.SEARCH,
+            command = EAsCommand.OFFERS,
             state = EAsState.NONE,
             workMode = EAsWorkMode.STUB,
             stubCase = EAsAdStubs.DB_ERROR,
-            adFilterRequest = filter,
+            adRequest = AsAd(
+                id = id,
+            ),
         )
         processor.exec(ctx)
         assertEquals(AsAd(), ctx.adResponse)
@@ -71,11 +85,13 @@ class AdSearchStubTest {
     @Test
     fun badNoCase() = runTest {
         val ctx = AsAdContext(
-            command = EAsCommand.SEARCH,
+            command = EAsCommand.OFFERS,
             state = EAsState.NONE,
             workMode = EAsWorkMode.STUB,
             stubCase = EAsAdStubs.BAD_TITLE,
-            adFilterRequest = filter,
+            adRequest = AsAd(
+                id = id,
+            ),
         )
         processor.exec(ctx)
         assertEquals(AsAd(), ctx.adResponse)

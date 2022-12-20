@@ -206,6 +206,10 @@ components:
     AdLock:
       type: string
       description: Версия оптимистичной блокировки
+    ProductId:
+      type: string
+      description: Идентификатор модели продукта, к которому относится объявление
+
     BaseAd:
       type: object
       description: Объект описывает свойства, одинаковые для create и update
@@ -235,6 +239,8 @@ components:
           $ref: '#/components/schemas/EDealSide'
         visibility:
           $ref: '#/components/schemas/EAdVisibility'
+        productId:
+          $ref: '#/components/schemas/ProductId'
     EDealSide:
       type: string
       description: 'Сторона сделки: спрос или предложение'

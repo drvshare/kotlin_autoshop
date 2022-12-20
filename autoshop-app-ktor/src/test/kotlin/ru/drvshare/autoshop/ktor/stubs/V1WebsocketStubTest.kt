@@ -1,4 +1,4 @@
-package ru.drvshare.autoshop.stubs
+package ru.drvshare.autoshop.ktor.stubs
 
 import io.ktor.client.plugins.websocket.*
 import io.ktor.server.application.*

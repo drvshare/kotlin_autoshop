@@ -65,6 +65,7 @@ kotlin {
                 // Stubs
                 implementation(project(":autoshop-stubs"))
                 implementation(project(":autoshop-biz"))
+                implementation(project(":autoshop-repo-inmemory"))
             }
         }
 
@@ -74,6 +75,9 @@ kotlin {
                 implementation(kotlin("test-junit"))
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+
+                implementation(project(":autoshop-repo-common"))
+
                 implementation(ktor("test-host"))
                 implementation(ktor("content-negotiation", prefix = "client-"))
                 implementation(ktor("websockets", prefix = "client-"))

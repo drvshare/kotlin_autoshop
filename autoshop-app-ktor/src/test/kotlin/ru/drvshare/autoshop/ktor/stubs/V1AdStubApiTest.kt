@@ -1,4 +1,4 @@
-package ru.drvshare.autoshop.stubs
+package ru.drvshare.autoshop.ktor.stubs
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature

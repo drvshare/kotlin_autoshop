@@ -1,7 +1,5 @@
-package ru.drvshare.autoshop.biz.stub
+package ru.drvshare.autoshop.biz.stub.stub
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.LocalDate
@@ -9,10 +7,11 @@ import ru.drvshare.autoshop.biz.AsAdProcessor
 import ru.drvshare.autoshop.common.AsAdContext
 import ru.drvshare.autoshop.common.models.*
 import ru.drvshare.autoshop.common.stubs.EAsAdStubs
-import ru.drvshare.autoshop.stubs.AsAdStub
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class AdCreateStubTest {
+class AdUpdateStubTest {
 
     private val processor = AsAdProcessor()
     private val id = AsAdId("666")
@@ -29,7 +28,7 @@ class AdCreateStubTest {
     fun create() = runTest {
 
         val ctx = AsAdContext(
-            command = EAsCommand.CREATE,
+            command = EAsCommand.UPDATE,
             state = EAsState.NONE,
             workMode = EAsWorkMode.STUB,
             stubCase = EAsAdStubs.SUCCESS,
@@ -46,7 +45,7 @@ class AdCreateStubTest {
             ),
         )
         processor.exec(ctx)
-        assertEquals(AsAdStub.get().id, ctx.adResponse.id)
+        assertEquals(id, ctx.adResponse.id)
         assertEquals(title, ctx.adResponse.title)
         assertEquals(description, ctx.adResponse.description)
         assertEquals(releaseYear, ctx.adResponse.releaseYear)
@@ -58,9 +57,24 @@ class AdCreateStubTest {
     }
 
     @Test
+    fun badId() = runTest {
+        val ctx = AsAdContext(
+            command = EAsCommand.UPDATE,
+            state = EAsState.NONE,
+            workMode = EAsWorkMode.STUB,
+            stubCase = EAsAdStubs.BAD_ID,
+            adRequest = AsAd(),
+        )
+        processor.exec(ctx)
+        assertEquals(AsAd(), ctx.adResponse)
+        assertEquals("id", ctx.errors.firstOrNull()?.field)
+        assertEquals("validation", ctx.errors.firstOrNull()?.group)
+    }
+
+    @Test
     fun badTitle() = runTest {
         val ctx = AsAdContext(
-            command = EAsCommand.CREATE,
+            command = EAsCommand.UPDATE,
             state = EAsState.NONE,
             workMode = EAsWorkMode.STUB,
             stubCase = EAsAdStubs.BAD_TITLE,
@@ -77,11 +91,10 @@ class AdCreateStubTest {
         assertEquals("title", ctx.errors.firstOrNull()?.field)
         assertEquals("validation", ctx.errors.firstOrNull()?.group)
     }
-
     @Test
     fun badDescription() = runTest {
         val ctx = AsAdContext(
-            command = EAsCommand.CREATE,
+            command = EAsCommand.UPDATE,
             state = EAsState.NONE,
             workMode = EAsWorkMode.STUB,
             stubCase = EAsAdStubs.BAD_DESCRIPTION,
@@ -102,7 +115,7 @@ class AdCreateStubTest {
     @Test
     fun databaseError() = runTest {
         val ctx = AsAdContext(
-            command = EAsCommand.CREATE,
+            command = EAsCommand.UPDATE,
             state = EAsState.NONE,
             workMode = EAsWorkMode.STUB,
             stubCase = EAsAdStubs.DB_ERROR,
@@ -118,10 +131,10 @@ class AdCreateStubTest {
     @Test
     fun badNoCase() = runTest {
         val ctx = AsAdContext(
-            command = EAsCommand.CREATE,
+            command = EAsCommand.UPDATE,
             state = EAsState.NONE,
             workMode = EAsWorkMode.STUB,
-            stubCase = EAsAdStubs.BAD_ID,
+            stubCase = EAsAdStubs.BAD_SEARCH_STRING,
             adRequest = AsAd(
                 id = id,
                 title = title,

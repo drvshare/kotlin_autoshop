@@ -1,4 +1,4 @@
-package ru.drvshare.autoshop.biz.stub
+package ru.drvshare.autoshop.biz.stub.stub
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest

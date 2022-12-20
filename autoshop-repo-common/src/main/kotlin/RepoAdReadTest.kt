@@ -34,7 +34,7 @@ abstract class RepoAdReadTest {
         )
     }
 
-    companion object: BaseInitAds("search") {
+    companion object: BaseInitAds("delete") {
         override val initObjects: List<AsAd> = listOf(
             createInitTestModel("read")
         )

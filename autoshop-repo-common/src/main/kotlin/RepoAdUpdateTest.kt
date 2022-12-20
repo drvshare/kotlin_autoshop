@@ -30,7 +30,7 @@ abstract class RepoAdUpdateTest {
         assertEquals(listOf(AsError(field = "id", message = "Not Found")), result.errors)
     }
 
-    companion object: BaseInitAds("search") {
+    companion object: BaseInitAds("update") {
         override val initObjects: List<AsAd> = listOf(
             createInitTestModel("update")
         )
