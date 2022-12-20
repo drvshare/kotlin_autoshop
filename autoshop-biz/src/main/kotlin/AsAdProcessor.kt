@@ -8,10 +8,7 @@ import ru.drvshare.autoshop.biz.stubs.*
 import ru.drvshare.autoshop.biz.validation.*
 import ru.drvshare.autoshop.biz.repo.*
 import ru.drvshare.autoshop.common.AsAdContext
-import ru.drvshare.autoshop.common.models.AsAdId
-import ru.drvshare.autoshop.common.models.AsSettings
-import ru.drvshare.autoshop.common.models.EAsCommand
-import ru.drvshare.autoshop.common.models.EAsState
+import ru.drvshare.autoshop.common.models.*
 import ru.drvshare.autoshop.cor.handlers.chain
 import ru.drvshare.autoshop.cor.rootChain
 import ru.drvshare.autoshop.cor.handlers.worker
@@ -89,10 +86,13 @@ class AsAdProcessor(private val settings: AsSettings = AsSettings()) {
                 validation {
                     worker("Копируем поля в adValidating") { adValidating = adRequest.deepCopy() }
                     worker("Очистка id") { adValidating.id = AsAdId(adValidating.id.asString().trim()) }
+                    worker("Очистка lock") { adValidating.lock = AsAdLock(adValidating.lock.asString().trim()) }
                     worker("Очистка заголовка") { adValidating.title = adValidating.title.trim() }
                     worker("Очистка описания") { adValidating.description = adValidating.description.trim() }
                     validateIdNotEmpty("Проверка на непустой id")
                     validateIdProperFormat("Проверка формата id")
+                    validateLockNotEmpty("Проверка на непустой lock")
+                    validateLockProperFormat("Проверка формата lock")
                     validateTitleNotEmpty("Проверка на непустой заголовок")
                     validateTitleHasContent("Проверка на наличие содержания в заголовке")
                     validateDescriptionNotEmpty("Проверка на непустое описание")
@@ -120,8 +120,11 @@ class AsAdProcessor(private val settings: AsSettings = AsSettings()) {
                         adValidating = adRequest.deepCopy()
                     }
                     worker("Очистка id") { adValidating.id = AsAdId(adValidating.id.asString().trim()) }
+                    worker("Очистка lock") { adValidating.lock = AsAdLock(adValidating.lock.asString().trim()) }
                     validateIdNotEmpty("Проверка на непустой id")
                     validateIdProperFormat("Проверка формата id")
+                    validateLockNotEmpty("Проверка на непустой lock")
+                    validateLockProperFormat("Проверка формата lock")
 
                     finishAdValidation("Успешное завершение процедуры валидации")
                 }

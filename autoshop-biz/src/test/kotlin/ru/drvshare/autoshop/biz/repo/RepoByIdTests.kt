@@ -17,7 +17,7 @@ private val initAd = AsAd(
     adType = EAsDealSide.DEMAND,
     visibility = EAsAdVisibility.VISIBLE_PUBLIC,
 )
-private val uuid = "10000000-0000-0000-0000-000000000001"
+private const val uuid = "10000000-0000-0000-0000-000000000001"
 private val repo: IAdRepository
     get() = AdRepositoryMock(
         invokeReadAd = {

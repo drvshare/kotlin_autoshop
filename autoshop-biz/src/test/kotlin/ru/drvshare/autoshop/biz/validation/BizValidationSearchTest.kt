@@ -2,21 +2,26 @@ package ru.drvshare.autoshop.biz.validation
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import ru.drvshare.autoshop.backend.repository.inmemory.AdRepoStub
 import ru.drvshare.autoshop.biz.AsAdProcessor
 import ru.drvshare.autoshop.common.AsAdContext
-import ru.drvshare.autoshop.common.models.AsAdFilter
-import ru.drvshare.autoshop.common.models.EAsCommand
-import ru.drvshare.autoshop.common.models.EAsState
-import ru.drvshare.autoshop.common.models.EAsWorkMode
+import ru.drvshare.autoshop.common.models.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
+@Suppress("TestMethodWithoutAssertion")
 @OptIn(ExperimentalCoroutinesApi::class)
 class BizValidationSearchTest {
 
     private val command = EAsCommand.SEARCH
-    private val processor by lazy { AsAdProcessor() }
+    private val settings by lazy {
+        AsSettings(
+            repoTest = AdRepoStub()
+        )
+    }
+
+    private val processor by lazy { AsAdProcessor(settings) }
 
     @Test
     fun correctEmpty() = runTest {

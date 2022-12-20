@@ -18,7 +18,7 @@ kotlin {
                 implementation("io.github.reactivecircus.cache4k:cache4k:$cache4kVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
                 implementation("com.benasher44:uuid:$kmpUUIDVersion")
-                implementation(project(":autoshop-repo-common"))
+                implementation(project(":autoshop-repo-tests"))
 
             }
         }

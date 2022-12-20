@@ -21,6 +21,7 @@ fun validationDescriptionCorrect(command: EAsCommand, processor: AsAdProcessor) 
             description = "abc",
             adType = EAsDealSide.DEMAND,
             visibility = EAsAdVisibility.VISIBLE_PUBLIC,
+            lock = AsAdLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)
@@ -41,6 +42,7 @@ fun validationDescriptionTrim(command: EAsCommand, processor: AsAdProcessor) = r
             description = " \n\tabc \n\t",
             adType = EAsDealSide.DEMAND,
             visibility = EAsAdVisibility.VISIBLE_PUBLIC,
+            lock = AsAdLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)
@@ -61,6 +63,7 @@ fun validationDescriptionEmpty(command: EAsCommand, processor: AsAdProcessor) = 
             description = "",
             adType = EAsDealSide.DEMAND,
             visibility = EAsAdVisibility.VISIBLE_PUBLIC,
+            lock = AsAdLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)
@@ -83,6 +86,7 @@ fun validationDescriptionSymbols(command: EAsCommand, processor: AsAdProcessor) 
             description = "!@#$%^&*(),.{}",
             adType = EAsDealSide.DEMAND,
             visibility = EAsAdVisibility.VISIBLE_PUBLIC,
+            lock = AsAdLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)

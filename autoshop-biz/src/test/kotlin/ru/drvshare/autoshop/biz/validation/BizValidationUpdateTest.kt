@@ -1,15 +1,22 @@
 package ru.drvshare.autoshop.biz.validation
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import ru.drvshare.autoshop.backend.repository.inmemory.AdRepoStub
 import ru.drvshare.autoshop.biz.AsAdProcessor
+import ru.drvshare.autoshop.common.models.AsSettings
 import ru.drvshare.autoshop.common.models.EAsCommand
 import kotlin.test.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@Suppress("TestMethodWithoutAssertion")
 class BizValidationUpdateTest {
 
     private val command = EAsCommand.UPDATE
-    private val processor by lazy { AsAdProcessor() }
+    private val settings by lazy {
+        AsSettings(
+            repoTest = AdRepoStub()
+        )
+    }
+
+    private val processor by lazy { AsAdProcessor(settings) }
 
     @Test
     fun correctTitle() = validationTitleCorrect(command, processor)
@@ -37,6 +44,11 @@ class BizValidationUpdateTest {
     fun emptyId() = validationIdEmpty(command, processor)
     @Test
     fun badFormatId() = validationIdFormat(command, processor)
+
+    @Test fun correctLock() = validationLockCorrect(command, processor)
+    @Test fun trimLock() = validationLockTrim(command, processor)
+    @Test fun emptyLock() = validationLockEmpty(command, processor)
+    @Test fun badFormatLock() = validationLockFormat(command, processor)
 
 }
 

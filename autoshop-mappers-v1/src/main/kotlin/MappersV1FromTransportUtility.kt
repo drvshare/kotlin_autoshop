@@ -38,7 +38,7 @@ internal fun EDealSide?.fromTransport(): EAsDealSide = when (this) {
 }
 
 internal fun String?.toAdId() = this?.let { AsAdId(it) } ?: AsAdId.NONE
-internal fun String?.toAdWithId() = AsAd(id = this.toAdId())
+internal fun String?.toAdLock() = this?.let { AsAdLock(id = it) } ?: AsAdLock.NONE
 internal fun IRequest?.requestId() = this?.requestId?.let { AsAdRequestId(it) } ?: AsAdRequestId.NONE
 internal fun String?.toProductId() = this?.let { AsProductId(it) } ?: AsProductId.NONE
 

@@ -9,8 +9,9 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
+
 @OptIn(ExperimentalCoroutinesApi::class)
-fun validationIdCorrect(command: EAsCommand, processor: AsAdProcessor) = runTest {
+fun validationLockCorrect(command: EAsCommand, processor: AsAdProcessor) = runTest {
     val ctx = AsAdContext(
         command = command,
         state = EAsState.NONE,
@@ -30,18 +31,18 @@ fun validationIdCorrect(command: EAsCommand, processor: AsAdProcessor) = runTest
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
-fun validationIdTrim(command: EAsCommand, processor: AsAdProcessor) = runTest {
+fun validationLockTrim(command: EAsCommand, processor: AsAdProcessor) = runTest {
     val ctx = AsAdContext(
         command = command,
         state = EAsState.NONE,
         workMode = EAsWorkMode.TEST,
         adRequest = AsAd(
-            id = AsAdId(" \n\t 123-234-abc-ABC \n\t "),
+            id = AsAdId("123-234-abc-ABC"),
             title = "abc",
             description = "abc",
             adType = EAsDealSide.DEMAND,
             visibility = EAsAdVisibility.VISIBLE_PUBLIC,
-            lock = AsAdLock("123-234-abc-ABC"),
+            lock = AsAdLock(" \n\t 123-234-abc-ABC \n\t "),
         ),
     )
     processor.exec(ctx)
@@ -50,47 +51,47 @@ fun validationIdTrim(command: EAsCommand, processor: AsAdProcessor) = runTest {
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
-fun validationIdEmpty(command: EAsCommand, processor: AsAdProcessor) = runTest {
+fun validationLockEmpty(command: EAsCommand, processor: AsAdProcessor) = runTest {
     val ctx = AsAdContext(
         command = command,
         state = EAsState.NONE,
         workMode = EAsWorkMode.TEST,
         adRequest = AsAd(
-            id = AsAdId(""),
+            id = AsAdId("123-234-abc-ABC"),
             title = "abc",
             description = "abc",
             adType = EAsDealSide.DEMAND,
             visibility = EAsAdVisibility.VISIBLE_PUBLIC,
-            lock = AsAdLock("123-234-abc-ABC"),
+            lock = AsAdLock(""),
         ),
     )
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(EAsState.FAILING, ctx.state)
     val error = ctx.errors.firstOrNull()
-    assertEquals("id", error?.field)
+    assertEquals("lock", error?.field)
     assertContains(error?.message ?: "", "id")
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
-fun validationIdFormat(command: EAsCommand, processor: AsAdProcessor) = runTest {
+fun validationLockFormat(command: EAsCommand, processor: AsAdProcessor) = runTest {
     val ctx = AsAdContext(
         command = command,
         state = EAsState.NONE,
         workMode = EAsWorkMode.TEST,
         adRequest = AsAd(
-            id = AsAdId("!@#\$%^&*(),.{}"),
+            id = AsAdId("123-234-abc-ABC"),
             title = "abc",
             description = "abc",
             adType = EAsDealSide.DEMAND,
             visibility = EAsAdVisibility.VISIBLE_PUBLIC,
-            lock = AsAdLock("123-234-abc-ABC"),
+            lock = AsAdLock("!@#\$%^&*(),.{}"),
         ),
     )
     processor.exec(ctx)
     assertEquals(1, ctx.errors.size)
     assertEquals(EAsState.FAILING, ctx.state)
     val error = ctx.errors.firstOrNull()
-    assertEquals("id", error?.field)
+    assertEquals("lock", error?.field)
     assertContains(error?.message ?: "", "id")
 }

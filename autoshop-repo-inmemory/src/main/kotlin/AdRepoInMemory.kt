@@ -2,7 +2,10 @@ package ru.drvshare.autoshop.backend.repository.inmemory
 
 import com.benasher44.uuid.uuid4
 import io.github.reactivecircus.cache4k.Cache
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import ru.drvshare.autoshop.backend.repository.inmemory.model.AdEntity
+import ru.drvshare.autoshop.common.helpers.errorRepoConcurrency
 import ru.drvshare.autoshop.common.models.*
 import ru.drvshare.autoshop.common.repo.*
 import kotlin.time.Duration
@@ -19,6 +22,7 @@ class AdRepoInMemory(
     private val cache = Cache.Builder()
         .expireAfterWrite(ttl)
         .build<String, AdEntity>()
+    private val mutex: Mutex = Mutex()
 
     init {
         initObjects.forEach {
@@ -58,25 +62,52 @@ class AdRepoInMemory(
 
     override suspend fun updateAd(rq: DbAdRequest): DbAdResponse {
         val key = rq.ad.id.takeIf { it != AsAdId.NONE }?.asString() ?: return resultErrorEmptyId
-        val oldLock = rq.ad.lock.takeIf { it != AsAdLock.NONE }?.asString()
+        val oldLock = rq.ad.lock.takeIf { it != AsAdLock.NONE }?.asString() ?: return resultErrorEmptyLock
         val newAd = rq.ad.copy(lock = AsAdLock(randomUuid()))
         val entity = AdEntity(newAd)
+        return mutex.withLock {
         val oldAd = cache.get(key)
-        oldAd?.let { cache.put(key, entity) } ?: return resultErrorNotFound
-        return DbAdResponse(
+            when {
+                oldAd == null -> resultErrorNotFound
+                oldAd.lock != oldLock -> DbAdResponse(
+                    data = oldAd.toInternal(),
+                    isSuccess = false,
+                    errors = listOf(errorRepoConcurrency(AsAdLock(oldLock), oldAd.lock?.let { AsAdLock(it) }))
+                )
+
+                else -> {
+                    cache.put(key, entity)
+                    DbAdResponse(
             data = newAd,
             isSuccess = true,
         )
     }
+            }
+        }
+    }
 
     override suspend fun deleteAd(rq: DbAdIdRequest): DbAdResponse {
         val key = rq.id.takeIf { it != AsAdId.NONE }?.asString() ?: return resultErrorEmptyId
+        val oldLock = rq.lock.takeIf { it != AsAdLock.NONE }?.asString() ?: return resultErrorEmptyLock
+        return mutex.withLock {
+            val oldAd = cache.get(key)
+            when {
+                oldAd == null -> resultErrorNotFound
+                oldAd.lock != oldLock -> DbAdResponse(
+                    data = oldAd.toInternal(),
+                    isSuccess = false,
+                    errors = listOf(errorRepoConcurrency(AsAdLock(oldLock), oldAd.lock?.let { AsAdLock(it) }))
+                )
+
+                else -> {
         cache.invalidate(key)
-        return DbAdResponse(
-            data = null,
+                    DbAdResponse(
+                        data = oldAd.toInternal(),
             isSuccess = true,
-            errors = emptyList()
         )
+    }
+            }
+        }
     }
 
     /**
@@ -114,8 +145,22 @@ class AdRepoInMemory(
             isSuccess = false,
             errors = listOf(
                 AsError(
+                    code = "id-empty",
+                    group = "validation",
                     field = "id",
                     message = "Id must not be null or blank"
+                )
+            )
+        )
+        val resultErrorEmptyLock = DbAdResponse(
+            data = null,
+            isSuccess = false,
+            errors = listOf(
+                AsError(
+                    code = "lock-empty",
+                    group = "validation",
+                    field = "lock",
+                    message = "Lock must not be null or blank"
                 )
             )
         )
@@ -124,6 +169,7 @@ class AdRepoInMemory(
             data = null,
             errors = listOf(
                 AsError(
+                    code = "not-found",
                     field = "id",
                     message = "Not Found"
                 )

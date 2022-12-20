@@ -12,6 +12,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
+@Suppress("TestMethodWithoutAssertion")
 class V1WebsocketStubTest {
 
     @Test
@@ -29,6 +30,7 @@ class V1WebsocketStubTest {
                     assertIs<AdInitResponse>(response)
                 }
                 val requestObj = AdCreateRequest(
+                    requestType = "create",
                     requestId = "12345",
                     ad = AdCreateObject(
                         title = "Болт",
@@ -62,9 +64,10 @@ class V1WebsocketStubTest {
 
             client.webSocket("/ws/v1") {
                 withTimeout(3000) {
-                    incoming.receive()
+                        incoming.receive().readBytes()
                 }
                 val requestObj = AdReadRequest(
+                    requestType = "read",
                     requestId = "12345",
                     ad = AdReadObject("666"),
                     debug = AdDebug(
@@ -96,6 +99,7 @@ class V1WebsocketStubTest {
                     incoming.receive()
                 }
                 val requestObj = AdUpdateRequest(
+                    requestType = "update",
                     requestId = "12345",
                     ad = AdUpdateObject(
                         id = "666",
@@ -133,6 +137,7 @@ class V1WebsocketStubTest {
                     incoming.receive()
                 }
                 val requestObj = AdDeleteRequest(
+                    requestType = "delete",
                     requestId = "12345",
                     ad = AdDeleteObject(
                         id = "666",
@@ -166,6 +171,7 @@ class V1WebsocketStubTest {
                     incoming.receive()
                 }
                 val requestObj = AdSearchRequest(
+                    requestType = "search",
                     requestId = "12345",
                     adFilter = AdSearchFilter(),
                     debug = AdDebug(
@@ -197,6 +203,7 @@ class V1WebsocketStubTest {
                     incoming.receive()
                 }
                 val requestObj = AdOffersRequest(
+                    requestType = "offers",
                     requestId = "12345",
                     ad = AdReadObject(
                         id = "666",

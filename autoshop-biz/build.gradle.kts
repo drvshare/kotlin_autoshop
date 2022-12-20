@@ -24,7 +24,8 @@ kotlin {
                 @Suppress("UNUSED_VARIABLE")
                 val test by getting {
                     dependencies {
-                        implementation(project(":autoshop-repo-common"))
+                        implementation(project(":autoshop-repo-stubs"))
+                        implementation(project(":autoshop-repo-tests"))
 
 //            implementation(kotlin("test-common"))
 //            implementation(kotlin("test-annotations-common"))

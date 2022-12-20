@@ -12,10 +12,7 @@ import org.junit.Test
 import ru.drvshare.autoshop.api.v1.models.*
 import ru.drvshare.autoshop.app.module
 import ru.drvshare.autoshop.backend.repo.common.AdRepositoryMock
-import ru.drvshare.autoshop.common.models.AsAd
-import ru.drvshare.autoshop.common.models.AsAdId
-import ru.drvshare.autoshop.common.models.AsSettings
-import ru.drvshare.autoshop.common.models.EAsDealSide
+import ru.drvshare.autoshop.common.models.*
 import ru.drvshare.autoshop.common.repo.DbAdResponse
 import ru.drvshare.autoshop.common.repo.DbAdsResponse
 import java.util.UUID
@@ -23,6 +20,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 
+@Suppress("TestMethodWithoutAssertion")
 class V1AdMockApiTest {
     @Test
     fun create() = testApplication {
@@ -113,7 +111,7 @@ class V1AdMockApiTest {
                     invokeReadAd = {
                         DbAdResponse(
                             isSuccess = true,
-                            data = AsAd(id = it.id),
+                            data = AsAd(id = it.id, lock = AsAdLock("123")),
                         )
                     },
                     invokeUpdateAd = {
@@ -135,6 +133,7 @@ class V1AdMockApiTest {
             description = "КРУТЕЙШИЙ",
             adType = EDealSide.DEMAND,
             visibility = EAdVisibility.PUBLIC,
+            lock = "123",
         )
 
         val response = client.post("/v1/ad/update") {
@@ -146,6 +145,7 @@ class V1AdMockApiTest {
                     description = "КРУТЕЙШИЙ",
                     adType = EDealSide.DEMAND,
                     visibility = EAdVisibility.PUBLIC,
+                    lock = "123",
                 ),
                 debug = AdDebug(
                     mode = EAdRequestDebugMode.TEST,
@@ -171,7 +171,7 @@ class V1AdMockApiTest {
                     invokeReadAd = {
                         DbAdResponse(
                             isSuccess = true,
-                            data = AsAd(id = it.id),
+                            data = AsAd(id = it.id, lock = AsAdLock("123")),
                         )
                     },
                     invokeDeleteAd = {
@@ -194,6 +194,7 @@ class V1AdMockApiTest {
                 requestId = "12345",
                 ad = AdDeleteObject(
                     id = deleteId,
+                    lock = "123",
                 ),
                 debug = AdDebug(
                     mode = EAdRequestDebugMode.TEST,

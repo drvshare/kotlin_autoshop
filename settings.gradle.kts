@@ -16,13 +16,20 @@ pluginManagement {
 
     }
 }
-include("autoshop-transport-main-openapi-v1")
 include("autoshop-common")
+
+include("autoshop-transport-main-openapi-v1")
 include("autoshop-mappers-v1")
+
 include("autoshop-stubs")
-include("autoshop-biz")
+
 include("autoshop-app-ktor")
-include("autoshop-cor")
 include("autoshop-app-kafka")
-include("autoshop-repo-common")
+
+include("autoshop-biz")
+
+include("autoshop-cor")
+
 include("autoshop-repo-inmemory")
+include("autoshop-repo-tests")
+include("autoshop-repo-stubs")

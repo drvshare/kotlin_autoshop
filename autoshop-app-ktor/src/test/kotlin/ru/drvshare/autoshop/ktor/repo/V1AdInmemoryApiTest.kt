@@ -16,6 +16,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
+@Suppress("TestMethodWithoutAssertion")
 class V1AdInmemoryApiTest {
     private val uuidOld = "10000000-0000-0000-0000-000000000001"
     private val uuidNew = "10000000-0000-0000-0000-000000000002"
@@ -119,6 +120,8 @@ class V1AdInmemoryApiTest {
             description = "КРУТЕЙШИЙ",
             adType = EDealSide.DEMAND,
             visibility = EAdVisibility.PUBLIC,
+            lock = initAd.lock.asString()
+
         )
 
         val response = client.post("/v1/ad/update") {
@@ -157,6 +160,8 @@ class V1AdInmemoryApiTest {
                 requestId = "12345",
                 ad = AdDeleteObject(
                     id = uuidOld,
+                    lock = initAd.lock.asString()
+
                 ),
                 debug = AdDebug(
                     mode = EAdRequestDebugMode.TEST,

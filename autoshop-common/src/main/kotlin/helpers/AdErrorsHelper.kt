@@ -1,6 +1,8 @@
 package ru.drvshare.autoshop.common.helpers
 
 import ru.drvshare.autoshop.common.AsAdContext
+import ru.drvshare.autoshop.common.exceptions.RepoConcurrencyException
+import ru.drvshare.autoshop.common.models.AsAdLock
 import ru.drvshare.autoshop.common.models.AsError
 import ru.drvshare.autoshop.common.models.EAsState
 
@@ -72,4 +74,17 @@ fun errorAdministration(
     group = "administration",
     message = "Microservice management error: $description",
     level = level,
+    exception = exception,
+)
+
+fun errorRepoConcurrency(
+    expectedLock: AsAdLock,
+    actualLock: AsAdLock?,
+    exception: Exception? = null,
+) = AsError(
+    field = "lock",
+    code = "concurrency",
+    group = "repo",
+    message = "The object has been changed concurrently by another user or process",
+    exception = exception ?: RepoConcurrencyException(expectedLock, actualLock),
 )

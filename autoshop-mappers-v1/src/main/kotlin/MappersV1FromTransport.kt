@@ -29,7 +29,7 @@ fun AsAdContext.fromTransport(request: AdCreateRequest) {
 fun AsAdContext.fromTransport(request: AdReadRequest) {
     command = EAsCommand.READ
     requestId = request.requestId()
-    adRequest = request.ad?.id.toAdWithId()
+    adRequest = request.ad.toInternal()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
@@ -45,7 +45,7 @@ fun AsAdContext.fromTransport(request: AdUpdateRequest) {
 fun AsAdContext.fromTransport(request: AdDeleteRequest) {
     command = EAsCommand.DELETE
     requestId = request.requestId()
-    adRequest = request.ad?.id.toAdWithId()
+    adRequest = request.ad.toInternal()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
@@ -61,7 +61,7 @@ fun AsAdContext.fromTransport(request: AdSearchRequest) {
 fun AsAdContext.fromTransport(request: AdOffersRequest) {
     command = EAsCommand.OFFERS
     requestId = request.requestId()
-    adRequest = request.ad?.id.toAdWithId()
+    adRequest = request.ad.toInternal()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
@@ -69,7 +69,11 @@ fun AsAdContext.fromTransport(request: AdOffersRequest) {
 private fun AdSearchFilter?.toInternal(): AsAdFilter = AsAdFilter(
     searchString = this?.searchString ?: ""
 )
-
+private fun AdReadObject?.toInternal(): AsAd = if (this != null) {
+    AsAd(id = id.toAdId())
+} else {
+    AsAd.NONE
+}
 private fun AdCreateObject.toInternal(): AsAd = AsAd(
     title = this.title ?: "",
     description = this.description ?: "",
@@ -97,6 +101,16 @@ private fun AdUpdateObject.toInternal(): AsAd = AsAd(
 
     adType = this.adType.fromTransport(),
     visibility = this.visibility.fromTransport(),
+    lock = lock.toAdLock(),
 )
+
+private fun AdDeleteObject?.toInternal(): AsAd = if (this != null) {
+    AsAd(
+        id = id.toAdId(),
+        lock = lock.toAdLock(),
+    )
+} else {
+    AsAd.NONE
+}
 
 

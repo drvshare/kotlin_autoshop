@@ -35,6 +35,15 @@ kotlin {
 
                 implementation(ktor("core"))
                 implementation(ktor("netty"))
+
+                implementation(project(":autoshop-common"))
+                implementation(project(":autoshop-transport-main-openapi-v1"))
+//                implementation(project(":autoshop-transport-main-openapi-v2"))
+                implementation(project(":autoshop-biz"))
+                implementation(project(":autoshop-mappers-v1"))
+                implementation(project(":autoshop-stubs"))
+                implementation(project(":autoshop-repo-inmemory"))
+
                 // jackson
                 implementation(ktor("jackson", "serialization")) // io.ktor:ktor-serialization-jackson
                 implementation(ktor("call-logging"))
@@ -57,15 +66,6 @@ kotlin {
                 implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization:$ktorVersion")
 
-                // transport models
-                implementation(project(":autoshop-common"))
-                implementation(project(":autoshop-transport-main-openapi-v1"))
-//                implementation(project(":autoshop-transport-main-openapi-v2"))
-                implementation(project(":autoshop-mappers-v1"))
-                // Stubs
-                implementation(project(":autoshop-stubs"))
-                implementation(project(":autoshop-biz"))
-                implementation(project(":autoshop-repo-inmemory"))
             }
         }
 
@@ -76,7 +76,7 @@ kotlin {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
 
-                implementation(project(":autoshop-repo-common"))
+                implementation(project(":autoshop-repo-tests"))
 
                 implementation(ktor("test-host"))
                 implementation(ktor("content-negotiation", prefix = "client-"))

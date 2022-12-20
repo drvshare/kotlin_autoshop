@@ -21,6 +21,7 @@ fun validationTitleCorrect(command: EAsCommand, processor: AsAdProcessor) = runT
             description = "abc",
             adType = EAsDealSide.DEMAND,
             visibility = EAsAdVisibility.VISIBLE_PUBLIC,
+            lock = AsAdLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)
@@ -41,6 +42,7 @@ fun validationTitleTrim(command: EAsCommand, processor: AsAdProcessor) = runTest
             description = "abc",
             adType = EAsDealSide.DEMAND,
             visibility = EAsAdVisibility.VISIBLE_PUBLIC,
+            lock = AsAdLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)
@@ -61,6 +63,7 @@ fun validationTitleEmpty(command: EAsCommand, processor: AsAdProcessor) = runTes
             description = "abc",
             adType = EAsDealSide.DEMAND,
             visibility = EAsAdVisibility.VISIBLE_PUBLIC,
+            lock = AsAdLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)
@@ -83,6 +86,7 @@ fun validationTitleSymbols(command: EAsCommand, processor: AsAdProcessor) = runT
             description = "abc",
             adType = EAsDealSide.DEMAND,
             visibility = EAsAdVisibility.VISIBLE_PUBLIC,
+            lock = AsAdLock("123-234-abc-ABC"),
         ),
     )
     processor.exec(ctx)
