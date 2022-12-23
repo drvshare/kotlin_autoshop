@@ -19,6 +19,7 @@ internal fun AsAd.toTransportAd(): AdResponseObject = AdResponseObject(
     adType = adType.toTransportAd(),
     visibility = visibility.toTransportAd(),
     permissions = permissionsClient.toTransportAd(),
+    lock = lock.takeIf { it != AsAdLock.NONE }?.asString()
 )
 
 private fun EAsSteering.toTransportAd(): ESteering = when (this) {

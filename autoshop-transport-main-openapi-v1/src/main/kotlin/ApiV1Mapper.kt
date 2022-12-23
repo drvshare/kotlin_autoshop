@@ -7,6 +7,7 @@ import ru.drvshare.autoshop.api.v1.models.IResponse
 
 val apiV1Mapper = ObjectMapper().apply {
     configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+//    setSerializationInclusion(JsonInclude.Include.NON_NULL)
 }
 
 fun apiV1RequestSerialize(request: IRequest): String = apiV1Mapper.writeValueAsString(request)

@@ -23,43 +23,42 @@ fun AsAdContext.toTransportInit() = AdInitResponse(
 
 fun AsAdContext.toTransportCreate() = AdCreateResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == EAsState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
+    result = if (state == EAsState.FINISHING) EResponseResult.SUCCESS else EResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     ad = adResponse.toTransportAd()
 )
 
 fun AsAdContext.toTransportRead() = AdReadResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == EAsState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
+    result = if (state == EAsState.FINISHING) EResponseResult.SUCCESS else EResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     ad = adResponse.toTransportAd()
 )
 
 fun AsAdContext.toTransportUpdate() = AdUpdateResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == EAsState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
+    result = if (state == EAsState.FINISHING) EResponseResult.SUCCESS else EResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     ad = adResponse.toTransportAd()
 )
 
 fun AsAdContext.toTransportDelete() = AdDeleteResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == EAsState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
+    result = if (state == EAsState.FINISHING) EResponseResult.SUCCESS else EResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     ad = adResponse.toTransportAd()
 )
 
 fun AsAdContext.toTransportSearch() = AdSearchResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == EAsState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
+    result = if (state == EAsState.FINISHING) EResponseResult.SUCCESS else EResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     ads = adsResponse.toTransportAd()
 )
 
 fun AsAdContext.toTransportOffers() = AdOffersResponse(
     requestId = this.requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == EAsState.RUNNING) EResponseResult.SUCCESS else EResponseResult.ERROR,
+    result = if (state == EAsState.FINISHING) EResponseResult.SUCCESS else EResponseResult.ERROR,
     errors = errors.toTransportErrors(),
     ads = adsResponse.toTransportAd()
 )
-

@@ -23,7 +23,9 @@ import ru.drvshare.autoshop.app.base.KtorWsSessions
 import ru.drvshare.autoshop.app.v1.asWsHandlerV1
 import ru.drvshare.autoshop.app.v1.v1Ad
 import ru.drvshare.autoshop.app.v1.v1Offer
+import ru.drvshare.autoshop.backend.repository.inmemory.AdRepoInMemory
 import ru.drvshare.autoshop.biz.AsAdProcessor
+import ru.drvshare.autoshop.common.models.AsSettings
 
 @Suppress("unused") // Referenced in application.conf
 fun main() {
@@ -51,7 +53,7 @@ fun main() {
     }
 }
 
-fun Application.module() {
+fun Application.module(settings: AsSettings? = null) {
     // Generally not needed as it is replaced by a `routing`
     install(Routing)
     install(WebSockets)
@@ -78,7 +80,13 @@ fun Application.module() {
     install(CallLogging) {
         level = Level.INFO
     }
-    val processor = AsAdProcessor()
+
+    val corSettings by lazy {
+        settings ?: AsSettings(
+            repoTest = AdRepoInMemory()
+        )
+    }
+    val processor = AsAdProcessor(settings = corSettings)
     routing {
         route("v1") {
             v1Ad(processor)

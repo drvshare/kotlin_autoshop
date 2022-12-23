@@ -19,9 +19,9 @@ kotlin {
         val test by getting {
             dependencies {
                 implementation(kotlin("test-junit5"))
-                implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+                implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
                 implementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
-                runtimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
+                runtimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
                 implementation("org.jetbrains.kotlinx:atomicfu:$atomicfuVersion")
             }
         }

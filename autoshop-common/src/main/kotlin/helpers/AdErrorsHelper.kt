@@ -1,6 +1,8 @@
 package ru.drvshare.autoshop.common.helpers
 
 import ru.drvshare.autoshop.common.AsAdContext
+import ru.drvshare.autoshop.common.exceptions.RepoConcurrencyException
+import ru.drvshare.autoshop.common.models.AsAdLock
 import ru.drvshare.autoshop.common.models.AsError
 import ru.drvshare.autoshop.common.models.EAsState
 
@@ -54,4 +56,35 @@ fun errorMapping(
     group = "mapping",
     message = "Mapping error for field $field: $description",
     level = level,
+)
+
+fun errorAdministration(
+    /**
+     * Код, характеризующий ошибку. Не должен включать имя поля или указание на валидацию.
+     * Например: empty, badSymbols, tooLong, etc
+     */
+    field: String = "",
+    violationCode: String,
+    description: String,
+    exception: Exception? = null,
+    level: AsError.Levels = AsError.Levels.ERROR,
+) = AsError(
+    field = field,
+    code = "administration-$violationCode",
+    group = "administration",
+    message = "Microservice management error: $description",
+    level = level,
+    exception = exception,
+)
+
+fun errorRepoConcurrency(
+    expectedLock: AsAdLock,
+    actualLock: AsAdLock?,
+    exception: Exception? = null,
+) = AsError(
+    field = "lock",
+    code = "concurrency",
+    group = "repo",
+    message = "The object has been changed concurrently by another user or process",
+    exception = exception ?: RepoConcurrencyException(expectedLock, actualLock),
 )
